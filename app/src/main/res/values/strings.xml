@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">EventMe</string>
+    <string name="guestText"><u>Continue as a guest >></u></string>
 </resources>
