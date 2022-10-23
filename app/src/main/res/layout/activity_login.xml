@@ -112,6 +112,7 @@
         android:fontFamily="@font/montserrat_semibold"
         android:insetTop="0dp"
         android:insetBottom="0dp"
+        android:onClick="goToRegister"
         android:text="Register"
         android:textSize="20sp"
         app:cornerRadius="10dp"

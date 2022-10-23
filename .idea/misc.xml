@@ -4,8 +4,11 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="app/src/main/res/drawable/custom_edit_text_rounded.xml" value="0.2725" />
-        <entry key="app/src/main/res/layout/activity_login.xml" value="0.2282008516615714" />
+        <entry key="app/src/main/res/drawable/round_image.xml" value="0.2725" />
+        <entry key="app/src/main/res/drawable/round_shape.xml" value="0.2725" />
+        <entry key="app/src/main/res/layout/activity_login.xml" value="0.23852386474609377" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.19067028985507245" />
+        <entry key="app/src/main/res/layout/activity_register.xml" value="0.3309402465820312" />
         <entry key="app/src/main/res/layout/custom_edit_text_rounded.xml" value="0.3016304347826087" />
       </map>
     </option>
