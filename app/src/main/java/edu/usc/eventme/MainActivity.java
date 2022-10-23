@@ -13,7 +13,6 @@ import com.google.android.material.navigation.NavigationBarView;
 
 public class MainActivity extends AppCompatActivity {
     BottomNavigationView bottomNavigationView;
-    NavController navController;
 
     ExploreFragment exploreFragment = new ExploreFragment();
     MapsFragment mapsFragment = new MapsFragment();
