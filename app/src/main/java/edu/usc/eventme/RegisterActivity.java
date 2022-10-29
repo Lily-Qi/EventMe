@@ -35,9 +35,11 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.squareup.picasso.Picasso;
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -45,9 +47,6 @@ public class RegisterActivity extends AppCompatActivity {
     Uri pickedImgUri;
 
     private EditText userEmail, userPassword, userConfirmPassword, userBirthday, userName;
-    private ProgressBar loadingProgress;
-    private Button regBtn;
-    private TextView errorMessage;
 
     private FirebaseAuth mAuth;
 
@@ -72,10 +71,6 @@ public class RegisterActivity extends AppCompatActivity {
         userBirthday = findViewById(R.id.editTextBirthday);
         userPassword = findViewById(R.id.editTextPW);
         userConfirmPassword = findViewById(R.id.editTextConfirmPW);
-
-        errorMessage = findViewById(R.id.errorMessageText);
-        loadingProgress = findViewById(R.id.progressBar);
-        regBtn = findViewById(R.id.registerButton);
 
         mAuth = FirebaseAuth.getInstance();
 
@@ -115,7 +110,7 @@ public class RegisterActivity extends AppCompatActivity {
         }
     }
 
-    //show error message
+    //show message
     private void showMessage(String message) {
         Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
     }
@@ -128,7 +123,6 @@ public class RegisterActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
-                            showMessage("Account Created");
                             FirebaseUser user = mAuth.getCurrentUser();
                             updateUserInfo(name, birthday, pickedImgUri, mAuth.getCurrentUser());
                         } else {
@@ -142,7 +136,7 @@ public class RegisterActivity extends AppCompatActivity {
     //update user photo and name into the firebase storage
     private void updateUserInfo(String name, String birthday, Uri pickedImgUri, FirebaseUser currentUser) {
         StorageReference mStorage = FirebaseStorage.getInstance().getReference().child("users_photos");
-        final StorageReference imageFilePath = mStorage.child(currentUser.getUid());
+        final StorageReference imageFilePath = mStorage.child(currentUser.getUid()+".jpg");
         imageFilePath.putFile(pickedImgUri).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
@@ -152,10 +146,31 @@ public class RegisterActivity extends AppCompatActivity {
         }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                showMessage("Image upload success");
+                imageFilePath.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    @Override
+                    public void onSuccess(Uri uri) {
+                        FirebaseFirestore db = FirebaseFirestore.getInstance();
+                        User newUser = new User(name, currentUser.getEmail(), birthday, uri.toString());
+                        db.collection("users").document(currentUser.getUid()).set(newUser);
+                        showMessage("Register complete");
+                        updateUI();
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        showMessage(e.getMessage());
+                        return;
+                    }
+                });
             }
         });
 
+    }
+
+    private void updateUI() {
+        Intent mainActivity = new Intent(this, MainActivity.class);
+        startActivity(mainActivity);
+        finish();
     }
 
 }

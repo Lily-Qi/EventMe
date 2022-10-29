@@ -96,6 +96,7 @@
         android:insetTop="0dp"
         android:insetBottom="0dp"
         android:text="Login"
+        android:onClick="logClicked"
         android:textSize="20sp"
         app:cornerRadius="10dp"
         app:layout_constraintLeft_toLeftOf="parent"

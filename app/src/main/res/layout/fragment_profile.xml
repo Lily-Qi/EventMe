@@ -116,6 +116,7 @@
                 android:background="#e0e0e0" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/eventView"
                 android:layout_width="match_parent"
                 android:layout_height="260dp">
 
@@ -228,6 +229,7 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <View
+                android:id="@+id/breaker2"
                 android:layout_width="match_parent"
                 android:layout_height="10dp"
                 android:background="#e0e0e0" />
@@ -238,7 +240,7 @@
                 app:layout_constraintBottom_toBottomOf="parent">
 
                 <Button
-                    android:id="@+id/button"
+                    android:id="@+id/logoutButton"
                     android:layout_width="294dp"
                     android:layout_height="42dp"
                     android:layout_marginTop="40dp"
@@ -246,6 +248,7 @@
                     android:fontFamily="@font/montserrat_semibold"
                     android:insetTop="0dp"
                     android:insetBottom="0dp"
+                    android:onClick="logOutClicked"
                     android:text="Log Out"
                     android:textSize="20sp"
                     app:cornerRadius="10dp"
