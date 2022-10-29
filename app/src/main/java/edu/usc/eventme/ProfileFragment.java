@@ -3,8 +3,10 @@ package edu.usc.eventme;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +18,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
@@ -29,12 +32,22 @@ public class ProfileFragment extends Fragment {
     private ImageView userPhoto;
     private TextView userName, userEmail, userBirthday;
     private Button logOutBtn;
+    ExploreFragment exploreFragment = new ExploreFragment();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mAuth = FirebaseAuth.getInstance();
+        // This callback will only be called when MyFragment is at least Started.
+        OnBackPressedCallback callback = new OnBackPressedCallback(true /* enabled by default */) {
+            @Override
+            public void handleOnBackPressed() {
+                return;
+            }
+        };
+        requireActivity().getOnBackPressedDispatcher().addCallback(this, callback);
     }
+
 
     @Override
     public void onResume() {
@@ -78,6 +91,7 @@ public class ProfileFragment extends Fragment {
                                     startActivity(mainActivity);
                                 }
                             });
+
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override
@@ -96,7 +110,7 @@ public class ProfileFragment extends Fragment {
                     userBirthday.setText("");
                     userEmail.setText("");
                     logOutBtn.setText("Log In");
-                    logOutBtn.setBackgroundColor(getResources().getColor(R.color.orange_theme));
+                    logOutBtn.setBackgroundColor(getActivity().getResources().getColor(R.color.orange_theme, getContext().getTheme()));
                     logOutBtn.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
