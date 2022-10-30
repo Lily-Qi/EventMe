@@ -31,7 +31,7 @@ public class ProfileFragment extends Fragment {
     private FirebaseUser currentUser;
     private ImageView userPhoto;
     private TextView userName, userEmail, userBirthday;
-    private Button logOutBtn;
+    private Button logOutBtn, showEventButton;
     ExploreFragment exploreFragment = new ExploreFragment();
 
     @Override
@@ -66,6 +66,7 @@ public class ProfileFragment extends Fragment {
         userEmail = profileView.findViewById(R.id.userEmail);
         userPhoto = profileView.findViewById(R.id.userPhoto);
         logOutBtn = profileView.findViewById(R.id.logoutButton);
+        showEventButton = profileView.findViewById(R.id.showEventButton);
         currentUser = mAuth.getCurrentUser();
 
 
@@ -88,6 +89,13 @@ public class ProfileFragment extends Fragment {
                                 public void onClick(View view) {
                                     mAuth.signOut();
                                     Intent mainActivity = new Intent(getContext(), LoginActivity.class);
+                                    startActivity(mainActivity);
+                                }
+                            });
+                            showEventButton.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    Intent mainActivity = new Intent(getContext(), EventRegisterActivity.class);
                                     startActivity(mainActivity);
                                 }
                             });
