@@ -43,7 +43,6 @@ public class LoginActivity extends AppCompatActivity {
     public void logClicked(View view) {
         final String email = userEmail.getText().toString();
         final String password = userPassword.getText().toString();
-        showMessage("log clicked");
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
