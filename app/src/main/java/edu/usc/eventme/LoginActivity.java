@@ -36,29 +36,33 @@ public class LoginActivity extends AppCompatActivity {
         // Check if user is signed in (non-null) and update UI accordingly.
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if (currentUser != null) {
-            updateUI();
+            mAuth.signOut();
         }
     }
 
     public void logClicked(View view) {
         final String email = userEmail.getText().toString();
         final String password = userPassword.getText().toString();
-        mAuth.signInWithEmailAndPassword(email, password)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
-                            showMessage("Sign in successfully");
-                            FirebaseUser user = mAuth.getCurrentUser();
-                            updateUI();
-                        } else {
-                            // If sign in fails, display a message to the user.
-                            showMessage("Sign in failed." + task.getException().getMessage());
-                            return;
+        if (email.isEmpty() || password.isEmpty()) {
+            showMessage("Cannnot be empty");
+        } else {
+            mAuth.signInWithEmailAndPassword(email, password)
+                    .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if (task.isSuccessful()) {
+                                // Sign in success, update UI with the signed-in user's information
+                                showMessage("Sign in successfully");
+                                FirebaseUser user = mAuth.getCurrentUser();
+                                updateUI();
+                            } else {
+                                // If sign in fails, display a message to the user.
+                                showMessage("Sign in failed." + task.getException().getMessage());
+                            }
                         }
-                    }
-                });
+                    });
+        }
+
     }
 
     private void updateUI() {

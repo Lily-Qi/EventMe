@@ -35,6 +35,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -49,6 +50,7 @@ public class RegisterActivity extends AppCompatActivity {
     private EditText userEmail, userPassword, userConfirmPassword, userBirthday, userName;
 
     private FirebaseAuth mAuth;
+    private FirebaseFirestore db;
 
     //get the uri of the chosen photo and place that on the profile photo
     ActivityResultLauncher<String> mGetContent = registerForActivityResult(new ActivityResultContracts.GetContent(),
@@ -73,6 +75,10 @@ public class RegisterActivity extends AppCompatActivity {
         userConfirmPassword = findViewById(R.id.editTextConfirmPW);
 
         mAuth = FirebaseAuth.getInstance();
+        db = FirebaseFirestore.getInstance();
+        if (mAuth.getCurrentUser() != null) {
+            mAuth.signOut();
+        }
 
         ImgUserPhoto = findViewById(R.id.regUserPhoto);
         //choose photo
@@ -141,7 +147,6 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             public void onFailure(@NonNull Exception e) {
                 showMessage(e.getMessage());
-                return;
             }
         }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
@@ -149,17 +154,32 @@ public class RegisterActivity extends AppCompatActivity {
                 imageFilePath.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                     @Override
                     public void onSuccess(Uri uri) {
-                        FirebaseFirestore db = FirebaseFirestore.getInstance();
+                        String userID = currentUser.getUid();
+                        String TAG = "MyActivity";
                         User newUser = new User(name, currentUser.getEmail(), birthday, uri.toString());
-                        db.collection("users").document(currentUser.getUid()).set(newUser);
-                        showMessage("Register complete");
-                        updateUI();
+                        //showMessage("test: " + userID);
+                        DocumentReference newUserRef = db.collection("users").document(userID);
+                        newUserRef.set(newUser)
+                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void unused) {
+                                        Log.d(TAG, "DocumentSnapshot successfully written!");
+                                        showMessage("Register complete");
+                                        updateUI();
+                                        //mAuth.signOut();
+                                    }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Log.w(TAG, "Error writing document", e);
+                            }
+                        });
+
                     }
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
                         showMessage(e.getMessage());
-                        return;
                     }
                 });
             }
