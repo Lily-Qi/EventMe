@@ -8,6 +8,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,8 +17,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -32,12 +35,14 @@ public class ProfileFragment extends Fragment {
     private ImageView userPhoto;
     private TextView userName, userEmail, userBirthday;
     private Button logOutBtn, showEventButton;
+    private FirebaseFirestore db;
     ExploreFragment exploreFragment = new ExploreFragment();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mAuth = FirebaseAuth.getInstance();
+        db = FirebaseFirestore.getInstance();
         // This callback will only be called when MyFragment is at least Started.
         OnBackPressedCallback callback = new OnBackPressedCallback(true /* enabled by default */) {
             @Override
@@ -74,32 +79,39 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 if (firebaseAuth.getCurrentUser() != null) {
-                    FirebaseFirestore db = FirebaseFirestore.getInstance();
                     DocumentReference docRef = db.collection("users").document(firebaseAuth.getCurrentUser().getUid());
-                    docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                         @Override
-                        public void onSuccess(DocumentSnapshot documentSnapshot) {
-                            User user = documentSnapshot.toObject(User.class);
-                            userBirthday.setText(user.getUserBirthday());
-                            userName.setText(user.getUserName());
-                            userEmail.setText(user.getUserEmail());
-                            Picasso.get().load(user.getUserPhoto()).into(userPhoto);
-                            logOutBtn.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View view) {
-                                    mAuth.signOut();
-                                    Intent mainActivity = new Intent(getContext(), LoginActivity.class);
-                                    startActivity(mainActivity);
+                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                            if (task.isSuccessful()) {
+                                DocumentSnapshot document = task.getResult();
+                                if (document.exists()) {
+                                    User user = document.toObject(User.class);
+                                    userBirthday.setText(user.getUserBirthday());
+                                    userName.setText(user.getUserName());
+                                    userEmail.setText(user.getUserEmail());
+                                    Picasso.get().load(user.getUserPhoto()).into(userPhoto);
+                                    logOutBtn.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View view) {
+                                            Intent mainActivity = new Intent(getContext(), LoginActivity.class);
+                                            mAuth.signOut();
+                                            startActivity(mainActivity);
+                                        }
+                                    });
+                                    showEventButton.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View view) {
+                                            Intent mainActivity = new Intent(getContext(), EventRegisterActivity.class);
+                                            startActivity(mainActivity);
+                                        }
+                                    });
+                                } else {
+                                    Log.i("Activity", "not ready");
                                 }
-                            });
-                            showEventButton.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View view) {
-                                    Intent mainActivity = new Intent(getContext(), EventRegisterActivity.class);
-                                    startActivity(mainActivity);
-                                }
-                            });
-
+                            } else {
+                                showMessage(task.getException().getMessage());
+                            }
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override
