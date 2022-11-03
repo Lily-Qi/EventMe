@@ -49,6 +49,7 @@ public class RegisterActivity extends AppCompatActivity {
     private EditText userEmail, userPassword, userConfirmPassword, userBirthday, userName;
 
     private FirebaseAuth mAuth;
+    private FirebaseFirestore db;
 
     //get the uri of the chosen photo and place that on the profile photo
     ActivityResultLauncher<String> mGetContent = registerForActivityResult(new ActivityResultContracts.GetContent(),
@@ -73,7 +74,7 @@ public class RegisterActivity extends AppCompatActivity {
         userConfirmPassword = findViewById(R.id.editTextConfirmPW);
 
         mAuth = FirebaseAuth.getInstance();
-
+        db = FirebaseFirestore.getInstance();
         ImgUserPhoto = findViewById(R.id.regUserPhoto);
         //choose photo
         ImgUserPhoto.setOnClickListener((view)-> {
