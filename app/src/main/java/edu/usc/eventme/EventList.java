@@ -35,7 +35,6 @@ public class EventList {
         eventList.remove(e);
     }
 
-
     public Event getEvent(String n){
         for(Event e:eventList){
             if(e.getID().equals(n)){
