@@ -1,13 +1,48 @@
 package edu.usc.eventme;
 
+import android.app.SearchManager;
+import android.content.Context;
 import android.os.Bundle;
 
 import androidx.activity.OnBackPressedCallback;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.MenuItemCompat;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.CalendarView;
+import androidx.gridlayout.widget.GridLayout;
+
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.SearchView;
+import android.widget.Toast;
+import androidx.appcompat.widget.Toolbar;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.core.EventTarget;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -20,8 +55,17 @@ public class ExploreFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
+    private SearchView searchView;
+    private Toolbar toolbar;
+    private GridLayout gridLayout;
+    private ImageView music;
+    private ImageView outdoor;
+    private ImageView food;
+    private ImageView art;
+    private Button bt;
+    private EditText start;
+    private EditText end;
+    private String startDate, endDate;
     private String mParam1;
     private String mParam2;
 
@@ -46,6 +90,42 @@ public class ExploreFragment extends Fragment {
         fragment.setArguments(args);
         return fragment;
     }
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        View view = inflater.inflate(R.layout.fragment_explore, container, false);
+        toolbar = view.findViewById(R.id.toolbar);
+        searchView = view.findViewById(R.id.searchView);
+        music = view.findViewById(R.id.image_music);
+        music.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mysearch("Music","category");
+            }
+        });
+        outdoor = view.findViewById(R.id.image_outdoor);
+        food = view.findViewById(R.id.image_food);
+        art = view.findViewById(R.id.image_art);
+
+
+        start = view.findViewById(R.id.startDate);
+        end = view.findViewById(R.id.endDate);
+        startDate=start.getText().toString();
+        endDate=end.getText().toString();
+        bt = view.findViewById(R.id.button2);
+        bt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                searchByDate(startDate, endDate);
+            }
+        });
+        gridLayout = view.findViewById(R.id.gridLayout01);
+        AppCompatActivity activity = (AppCompatActivity) getActivity();
+        activity.setSupportActionBar(toolbar);
+        //activity.setSupportActionBar().setTitle("Custom Toolbar");
+        return view;
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -55,18 +135,111 @@ public class ExploreFragment extends Fragment {
             public void handleOnBackPressed() {
                 return;
             }
+
         };
         requireActivity().getOnBackPressedDispatcher().addCallback(this, callback);
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
+
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_explore, container, false);
+//    @Override
+//    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+//        inflater.inflate(R.menu.explore_menu, menu);
+//        searchView = (SearchView) MenuItemCompat.getActionView(menuItem);
+//        searchView.setIconified(true);
+//        SearchManager searchM = (SearchManager) getActivity().getSystemService(Context.SEARCH_SERVICE);
+//        searchView.setSearchableInfo(searchM.getSearchableInfo(getActivity().getComponentName()));
+//        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+//            @Override
+//            public boolean onQueryTextSubmit(String query) {
+//                mysearch(query);
+//                return true;
+//            }
+//
+//            @Override
+//            public boolean onQueryTextChange(String query) {
+//                mysearch(query);
+//                return true;
+//            }
+//        });
+//        super.onCreateOptionsMenu(menu, inflater);
+//    }
+
+    private void mysearch(String query, String searchBy) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        String keyWord = query;
+        String type = searchBy;
+        Query search = db.collection("events").whereEqualTo(type,keyWord);
+        search.get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            EventList result = new EventList();
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                Event event = document.toObject(Event.class);
+                                showMessage("found" + event.getEventTitle().toString());
+                            }
+                        } else {
+                            showMessage("No Event"+ task.getException().getMessage());
+                        }
+                    }
+                });
+    }
+
+    //search with two inputs
+    private void searchByDate(String query, String query2) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        Query search = db.collection("events").whereEqualTo("startDate",query).whereEqualTo("endDate", query2);
+        search.get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                Event event = document.toObject(Event.class);
+                            }
+                        } else {
+                            showMessage("No Event"+ task.getException().getMessage());
+                        }
+                    }
+                });
+    }
+
+
+
+//    private void createEvents(){
+//        FirebaseFirestore db = FirebaseFirestore.getInstance();
+//        String eventTitle = "Home Coming Concert";
+//        int numUser = 350;
+//        String category = "Music";
+//        String startDate = "09/01/2023";
+//        String endDate = "09/01/2023";
+//        String startTime = "17:00";
+//        String endTime = "21:00";
+//        String cost = "$";
+//        Boolean parking = true;
+//        String description = "USC will be holding this big concert for welcoming students back on campus. The guest singers include Justin Bieber, Post Malone, and Drake.";
+//        String sponsoringOrganization = "USC Activity";
+//        List<String> users = new ArrayList<String>();
+//        String photoURL = "abcccc";
+//        for(int i=0;i<=20;i++) {
+//            Event event = new Event.Builder(String.valueOf(i), eventTitle, category, endDate, startDate, endTime, startTime, numUser, description, cost, parking, sponsoringOrganization, users, photoURL).build();
+//            db.collection("events").document(String.valueOf(i))
+//                    .set(event);
+//        }
+//        showMessage("Events created!");
+//    }
+
+
+
+
+    //show message
+    private void showMessage(String message) {
+        Toast.makeText(getContext(), message, Toast.LENGTH_LONG).show();
     }
 }
