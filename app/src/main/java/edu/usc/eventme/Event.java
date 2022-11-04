@@ -1,7 +1,6 @@
 package edu.usc.eventme;
 import java.util.ArrayList;
 import java.util.List;
-
 public class Event {
 
     private String location;
@@ -71,7 +70,6 @@ public class Event {
     public String getEventTitle() {
         return eventTitle;
     }
-
     public String getStartTime() {
         return startTime;
     }

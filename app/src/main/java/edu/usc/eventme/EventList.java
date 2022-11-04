@@ -24,7 +24,6 @@ public class EventList {
             case "cost":
                 Collections.sort(eventList, new sortByCost());
             case "distance":
-
         }
     }
 
@@ -35,6 +34,7 @@ public class EventList {
     public void removeEvent(Event e){
         eventList.remove(e);
     }
+
 
     public Event getEvent(String n){
         for(Event e:eventList){
@@ -76,4 +76,3 @@ class sortByCost implements Comparator<Event>{
         }
     }
 }*/
-
