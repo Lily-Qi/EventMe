@@ -79,7 +79,6 @@ public class RegisterActivity extends AppCompatActivity {
         if (mAuth.getCurrentUser() != null) {
             mAuth.signOut();
         }
-
         ImgUserPhoto = findViewById(R.id.regUserPhoto);
         //choose photo
         ImgUserPhoto.setOnClickListener((view)-> {
