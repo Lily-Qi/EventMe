@@ -2,6 +2,7 @@ package edu.usc.eventme;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,6 +38,7 @@ public class MyAdaptor extends RecyclerView.Adapter<MyAdaptor.ViewHolder>{
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         ArrayList<Event> list = result.getList();
         holder.eventName.setText(list.get(position).getEventTitle());
+        holder.distance.setText(String.format("%.2f", list.get(position).findDis(result.getCurrentlat(), result.getCurrentlon()))+"miles");
         //System.out.println(list.get(position).getEventTitle()+"!!!!!!!!!!!!");
         holder.eventLocation.setText(list.get(position).getLocation());
         holder.eventDate.setText(list.get(position).getStartDate()+" to "+list.get(position).getEndDate());
@@ -44,6 +46,17 @@ public class MyAdaptor extends RecyclerView.Adapter<MyAdaptor.ViewHolder>{
         holder.eventCost.setText(list.get(position).getCost());
         holder.sponcer.setText(list.get(position).getSponsoringOrganization());
         Picasso.get().load(list.get(position).getPhotoURL()).into(holder.eventImage);
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                System.out.println("click!!!!!!!!!!");
+                Intent intent = new Intent(view.getContext(), BottomsheetDetails.class);
+                intent.putExtra("Events",result);
+                intent.putExtra("position",holder.getAdapterPosition());
+                view.getContext().startActivity(intent);
+            }
+        });
+
     }
 
     @Override
@@ -53,8 +66,8 @@ public class MyAdaptor extends RecyclerView.Adapter<MyAdaptor.ViewHolder>{
 
 
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
-        TextView eventName, eventLocation, eventDate, eventTime, eventCost, sponcer;
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+        TextView eventName, eventLocation, eventDate, eventTime, eventCost, sponcer, distance;
         ImageView eventImage;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -65,7 +78,18 @@ public class MyAdaptor extends RecyclerView.Adapter<MyAdaptor.ViewHolder>{
             eventCost = itemView.findViewById(R.id.eventCost);
             sponcer = itemView.findViewById(R.id.sponceringOrganization);
             eventImage = itemView.findViewById(R.id.eventImage);
+            distance = itemView.findViewById(R.id.distance);
         }
+
+        @Override
+        public void onClick(View view) {
+            System.out.println("click!!!!!!!!!!");
+            Intent intent = new Intent(view.getContext(), Details.class);
+            intent.putExtra("Events",result);
+            intent.putExtra("position",getAdapterPosition());
+            view.getContext().startActivity(intent);
+        }
+
     }
 
     @Override

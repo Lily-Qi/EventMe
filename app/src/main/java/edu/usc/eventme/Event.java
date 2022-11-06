@@ -20,12 +20,14 @@ public class Event implements Serializable {
     private Boolean parking;
     private String sponsoringOrganization;
     private String photoURL;
+    private double latitude;
+    private double longitude;
 
     public Event(){
 
     }
 
-    public Event(String id,String eventTitle, String category, String endDate, String startDate, String endTime, String startTime, int numUser, String description, String cost, Boolean parking, String sponsoringOrganization, String photoURL, String location) {
+    public Event(String id,String eventTitle, String category, String endDate, String startDate, String endTime, String startTime, int numUser, String description, String cost, Boolean parking, String sponsoringOrganization, String photoURL, String location, double latitude, double longitude) {
         this.id = id;
         this.eventTitle = eventTitle;
         this.category = category;
@@ -40,6 +42,8 @@ public class Event implements Serializable {
         this.sponsoringOrganization = sponsoringOrganization;
         this.photoURL = photoURL;
         this.location = location;
+        this.latitude = latitude;
+        this.longitude = longitude;
     }
 
     public String getID() {
@@ -102,5 +106,33 @@ public class Event implements Serializable {
 
     public void lessUser(){
         numUser--;
+    }
+
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public double getLongitude() {
+        return longitude;
+    }
+
+    public double findDis(double lat, double lon){
+        double theta = lon - longitude;
+        double dist = Math.sin(deg2rad(lat))
+                * Math.sin(deg2rad(latitude))
+                + Math.cos(deg2rad(lat))
+                * Math.cos(deg2rad(latitude))
+                * Math.cos(deg2rad(theta));
+        dist = Math.acos(dist);
+        dist = rad2deg(dist);
+        dist = dist * 60 * 1.1515;
+        return (dist);
+    }
+    private double deg2rad(double deg) {
+        return (deg * Math.PI / 180.0);
+    }
+
+    private double rad2deg(double rad) {
+        return (rad * 180.0 / Math.PI);
     }
 }

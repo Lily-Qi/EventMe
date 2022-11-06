@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
@@ -33,6 +34,8 @@ public class BottomsheetFragment extends BottomSheetDialogFragment {
     BottomsheetLayoutBinding bi;
     private RecyclerView ry;
     private Button back;
+    private double currentlat=0;
+    private double currentlon=0;
 
     private Event currentevent=new Event();
     @Override
@@ -48,7 +51,9 @@ public class BottomsheetFragment extends BottomSheetDialogFragment {
 
 
         String currentid=getArguments().getString("currentid");
-        System.out.println("id!!!!!!!"+currentid);
+        currentlat=getArguments().getDouble("lat");
+        currentlon=getArguments().getDouble("lon");
+        //System.out.println("id!!!!!!!"+currentid);
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         EventList results = new EventList();
         db.collection("events").get()
@@ -61,10 +66,25 @@ public class BottomsheetFragment extends BottomSheetDialogFragment {
                                 Event event = document.toObject(Event.class);
                                 if(event.getID().equals(currentid)){
                                     currentevent=event;
+                                    bi.currentevent.setOnClickListener(new View.OnClickListener()
+                                    {
+                                        @Override
+                                        public void onClick(View v)
+                                        {
+                                            System.out.println("click!!!!!!!!!!");
+                                            Intent intent = new Intent(v.getContext(), BottomsheetDetails.class);
+                                            EventList result=new EventList();
+                                            result.addEvent(currentevent);
+                                            intent.putExtra("Events",result);
+                                            intent.putExtra("position",0);
+                                            v.getContext().startActivity(intent);
+                                        }
+                                    });
                                     Picasso.get().load(currentevent.getPhotoURL()).into(bi.currenteventImage);
                                     System.out.println("title!!!!!!!"+currentevent.getEventTitle());
                                     bi.currenteventName.setText(currentevent.getEventTitle());
                                     //System.out.println(list.get(position).getEventTitle()+"!!!!!!!!!!!!");
+                                    bi.currentdistance.setText(String.format("%.2f", currentevent.findDis(currentlat, currentlon))+"miles");
                                     bi.currenteventLocation.setText(currentevent.getLocation());
                                     bi.currenteventDate.setText(currentevent.getStartDate()+" to "+currentevent.getEndDate());
                                     bi.currenteventTime.setText(currentevent.getStartTime()+" to "+currentevent.getEndTime());
@@ -76,12 +96,11 @@ public class BottomsheetFragment extends BottomSheetDialogFragment {
                                 }
                                 //System.out.println(event.getLocation());
                             }
-                            //results.sort("distance");
+                            results.sortbydistoloc(currentlat,currentlon);
                         }
                         else {
                             System.out.println("No Event"+ task.getException().getMessage());
                         }
-
                     }
                 });
         ry = bi.recyclerView;
@@ -103,8 +122,6 @@ public class BottomsheetFragment extends BottomSheetDialogFragment {
         ry.smoothScrollToPosition(0);
         ry.setHasFixedSize(false);
         ry.setNestedScrollingEnabled(false);
-        System.out.println("title2!!!!!!!"+currentevent.getEventTitle());
-        System.out.println("photo!!!!!!!"+currentevent.getPhotoURL());
         //Picasso.get().load(currentevent.getPhotoURL()).into(bi.currenteventImage);
 
 
@@ -130,7 +147,7 @@ public class BottomsheetFragment extends BottomSheetDialogFragment {
             @Override
             public void onStateChanged(@NonNull View view, int i) {
                 if (BottomSheetBehavior.STATE_EXPANDED == i) {
-                    showView(ry, (int)((Resources.getSystem().getDisplayMetrics().heightPixels)/3.0* myAdaptor.getItemCount()));
+                    showView(ry, (int)((Resources.getSystem().getDisplayMetrics().heightPixels)/2.7* myAdaptor.getItemCount()));
                     //addEventlsit();
                     //hideAppBar(bi.profileLayout);
 
@@ -138,7 +155,8 @@ public class BottomsheetFragment extends BottomSheetDialogFragment {
                 if (BottomSheetBehavior.STATE_COLLAPSED == i) {
                     //showView(bi.bottomSheet, (Resources.getSystem().getDisplayMetrics().heightPixels));
                     //ry.smoothScrollBy(10,10);
-                    //showView(bi.recyclerView, getActionBarSize());
+                    showView(bi.recyclerView, 0);
+                    bottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
                 }
 
                 if (BottomSheetBehavior.STATE_HIDDEN == i) {
@@ -211,5 +229,13 @@ public class BottomsheetFragment extends BottomSheetDialogFragment {
         final TypedArray array = getContext().getTheme().obtainStyledAttributes(new int[]{android.R.attr.actionBarSize});
         int size = (int) array.getDimension(0, 0);
         return size;
+    }
+    public void gotodetail(View view){
+        TextView tv = (TextView) view;
+        System.out.println("click!!!!!!!!!!");
+        Intent intent = new Intent(view.getContext(), Details.class);
+        //intent.putExtra("Events",result);
+        //intent.putExtra("position",getAdapterPosition());
+        view.getContext().startActivity(intent);
     }
 }

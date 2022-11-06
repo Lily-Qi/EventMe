@@ -114,7 +114,7 @@ public class MapsFragment extends Fragment {
     private FusedLocationProviderClient fusedLocationClient;
     private FusedLocationProviderClient client;
 
-    private String longitude, latitude;
+    private double longitude=0.0, latitude=0.0;
     private Location currentlocation;
     HashMap<String, String> markermap = new HashMap<String, String>();
 
@@ -197,7 +197,8 @@ public class MapsFragment extends Fragment {
                     }
                 String address1="3551 Trousdale Pkwy, Los Angeles, CA 90089";
                 if(permission) {
-                    LatLng latLng1 = getLocationFromAddress(getContext(), address1, false, null);
+                    //LatLng latLng1 = getLocationFromAddress(getContext(), address1, false, null);
+                    LatLng latLng1 =new LatLng(34.0200135, -118.2898305);
                     //mMap.addMarker(new MarkerOptions().position(latLng1).title("Your position"));
                     CameraUpdate cu = CameraUpdateFactory.newLatLngZoom(latLng1, 15);
                     mMap.moveCamera(cu);
@@ -215,11 +216,12 @@ public class MapsFragment extends Fragment {
                                             Event event = document.toObject(Event.class);
                                             results.addEvent(event);
                                             //System.out.println(event.getLocation());
-                                            LatLng temploc = getLocationFromAddress(getContext(), event.getLocation(),true, event);
-                                            //Marker marker = mMap.addMarker(new MarkerOptions().position(temploc));
-                                            //markermap.put(marker.getId(), event.getID());
+                                            //LatLng temploc = getLocationFromAddress(getContext(), event.getLocation(),true, event);
+                                            LatLng temploc = new LatLng(event.getLatitude(), event.getLongitude());
+                                            Marker marker = mMap.addMarker(new MarkerOptions().position(temploc));
+                                            markermap.put(marker.getId(), event.getID());
                                         }
-                                        results.sort("price");
+                                        //results.sort("price");
                                     }
                                     else {
                                         System.out.println("No Event"+ task.getException().getMessage());
@@ -245,8 +247,10 @@ public class MapsFragment extends Fragment {
                         BottomsheetFragment bottomSheet = new BottomsheetFragment();
                         Bundle args = new Bundle();
                         args.putString("currentid", markermap.get(marker.getId()));
-                        System.out.println(markermap);
-                        System.out.println("Id:"+marker.getId()+", eventid:"+markermap.get(marker.getId()));
+                        args.putDouble("lat", latitude);
+                        args.putDouble("lon", longitude);
+                        //System.out.println(markermap);
+                        //System.out.println("Id:"+marker.getId()+", eventid:"+markermap.get(marker.getId()));
                         bottomSheet.setArguments(args);
                         bottomSheet.show(getActivity().getSupportFragmentManager(),bottomSheet.getTag());
                         return true;
@@ -304,13 +308,13 @@ public class MapsFragment extends Fragment {
                                         // null set latitude
                                         System.out.println("set location");
                                         System.out.println(location.getLatitude());
-                                        latitude=String.valueOf(location.getLatitude());
+                                        latitude=location.getLatitude();
                                         // set longitude
-                                        longitude=
-                                                String.valueOf(location.getLongitude());
+                                        longitude= location.getLongitude();
                                         currentlocation=location;
                                         System.out.println(currentlocation.getLatitude());
                                         LatLng currentlatlng=new LatLng(currentlocation.getLatitude(), currentlocation.getLongitude());
+
 //                                        mMap.addMarker(new MarkerOptions().position(currentlatlng).title("Your position"));
 //                                        CameraUpdate cu = CameraUpdateFactory.newLatLngZoom(currentlatlng, 12);;
 //                                        mMap.moveCamera(cu);
@@ -348,14 +352,9 @@ public class MapsFragment extends Fragment {
                                                         = locationResult
                                                         .getLastLocation();
                                                 // Set latitude
-                                                latitude=String.valueOf(
-                                                                location1
-                                                                        .getLatitude());
+                                                latitude=location1.getLatitude();
                                                 // Set longitude
-                                                longitude=
-                                                        String.valueOf(
-                                                                location1
-                                                                        .getLongitude());
+                                                longitude= location1.getLongitude();
                                                 currentlocation=location1;
                                             }
                                         };
@@ -400,7 +399,9 @@ public class MapsFragment extends Fragment {
                         trytime=3;
                         if(hasmarker) {
                             Marker marker = mMap.addMarker(new MarkerOptions().position(p1).title("1"));
-                            System.out.println("event:"+event.getEventTitle()+", "+event.getID());
+                            System.out.println("event:"+event.getEventTitle());
+                            System.out.println(location.getLatitude());
+                            System.out.println(location.getLongitude());
                             markermap.put(marker.getId(), event.getID());
                             marker.showInfoWindow();
                         }
