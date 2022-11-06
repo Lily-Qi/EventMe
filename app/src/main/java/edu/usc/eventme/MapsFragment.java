@@ -219,7 +219,7 @@ public class MapsFragment extends Fragment {
                                             //LatLng temploc = getLocationFromAddress(getContext(), event.getLocation(),true, event);
                                             LatLng temploc = new LatLng(event.getLatitude(), event.getLongitude());
                                             Marker marker = mMap.addMarker(new MarkerOptions().position(temploc));
-                                            markermap.put(marker.getId(), event.getID());
+                                            markermap.put(marker.getId(), event.getId());
                                         }
                                         //results.sort("price");
                                     }
@@ -402,7 +402,7 @@ public class MapsFragment extends Fragment {
                             System.out.println("event:"+event.getEventTitle());
                             System.out.println(location.getLatitude());
                             System.out.println(location.getLongitude());
-                            markermap.put(marker.getId(), event.getID());
+                            markermap.put(marker.getId(), event.getId());
                             marker.showInfoWindow();
                         }
                     } catch (IOException ex) {

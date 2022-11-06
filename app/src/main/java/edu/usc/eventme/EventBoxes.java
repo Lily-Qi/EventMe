@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,7 +13,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class EventBoxes extends AppCompatActivity {
     private RecyclerView ry;
-    private Button back;
+    //private Button back;
+    private ImageView back;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -20,7 +22,7 @@ public class EventBoxes extends AppCompatActivity {
 
         EventList results = (EventList) getIntent().getSerializableExtra("searchResult");
         ry = findViewById(R.id.recyclerView);
-        back = findViewById(R.id.back);
+        back = findViewById(R.id.backButton);
         Intent toMain = new Intent(this,MainActivity.class);
         back.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -110,7 +110,7 @@ public class BottomsheetDetails extends AppCompatActivity {
                             ev.addUser();
                             FirebaseFirestore db = FirebaseFirestore.getInstance();
                             int users = ev.getNumUser();
-                            db.collection("events").document(ev.getID()).update("numUser",users);
+                            db.collection("events").document(ev.getId()).update("numUser",users);
                             userRegisterUpdate();
                             showMessage("Register Successfully!");
                         }
@@ -120,7 +120,7 @@ public class BottomsheetDetails extends AppCompatActivity {
                     ev.addUser();
                     FirebaseFirestore db = FirebaseFirestore.getInstance();
                     int users = ev.getNumUser();
-                    db.collection("events").document(ev.getID()).update("numUser",users);
+                    db.collection("events").document(ev.getId()).update("numUser",users);
                     userRegisterUpdate();
                     showMessage("Register Successfully!");
                 }
