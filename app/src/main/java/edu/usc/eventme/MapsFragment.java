@@ -4,10 +4,14 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.fragment.app.Fragment;
 
 import android.os.Looper;
@@ -61,9 +65,15 @@ import com.google.android.libraries.places.api.model.PlaceLikelihood;
 import com.google.android.libraries.places.api.net.FindCurrentPlaceRequest;
 import com.google.android.libraries.places.api.net.FindCurrentPlaceResponse;
 import com.google.android.libraries.places.api.net.PlacesClient;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
+import java.util.HashMap;
 
 public class MapsFragment extends Fragment {
 
@@ -106,6 +116,8 @@ public class MapsFragment extends Fragment {
 
     private String longitude, latitude;
     private Location currentlocation;
+    HashMap<String, String> markermap = new HashMap<String, String>();
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -118,9 +130,12 @@ public class MapsFragment extends Fragment {
 
 
 
+        //String adr2= results.getEventList().get(1).getLocation();
 
-        // Async map
+
+                        // Async map
         supportMapFragment.getMapAsync(new OnMapReadyCallback() {
+            @SuppressLint("MissingPermission")
             @Override
             public void onMapReady(GoogleMap googleMap) {
                 mMap=googleMap;
@@ -132,7 +147,6 @@ public class MapsFragment extends Fragment {
                         .getFusedLocationProviderClient(
                                 getActivity());
                 boolean permission=false;
-                while(!permission) {
                     if (ContextCompat.checkSelfPermission(
                             getActivity(),
                             Manifest.permission
@@ -155,16 +169,64 @@ public class MapsFragment extends Fragment {
                     } else {
                         // When permission is not granted
                         // Call method
-                        System.out.println("no permission");
-                        requestPermissions(
-                                new String[]{
-                                        Manifest.permission
-                                                .ACCESS_FINE_LOCATION,
-                                        Manifest.permission
-                                                .ACCESS_COARSE_LOCATION},
-                                100);
+//                        System.out.println("no permission");
+//                        requestPermissions(
+//                                new String[]{
+//                                        Manifest.permission
+//                                                .ACCESS_FINE_LOCATION,
+//                                        Manifest.permission
+//                                                .ACCESS_COARSE_LOCATION},
+//                                100);
+//                        ActivityResultLauncher<String[]> locationPermissionRequest =
+//                                registerForActivityResult(new ActivityResultContracts
+//                                                .RequestMultiplePermissions(), result -> {
+//                                            Boolean fineLocationGranted = result.getOrDefault(
+//                                                    Manifest.permission.ACCESS_FINE_LOCATION, false);
+//                                            Boolean coarseLocationGranted = result.getOrDefault(
+//                                                    Manifest.permission.ACCESS_COARSE_LOCATION,false);
+//                                            if (fineLocationGranted != null && fineLocationGranted) {
+//                                                // Precise location access granted.
+//                                            } else if (coarseLocationGranted != null && coarseLocationGranted) {
+//                                                // Only approximate location access granted.
+//                                            } else {
+//                                                // No location access granted.
+//                                            }
+//                                        }
+//                                );
 //                    getCurrentLocation();
                     }
+                String address1="3551 Trousdale Pkwy, Los Angeles, CA 90089";
+                if(permission) {
+                    LatLng latLng1 = getLocationFromAddress(getContext(), address1, false, null);
+                    //mMap.addMarker(new MarkerOptions().position(latLng1).title("Your position"));
+                    CameraUpdate cu = CameraUpdateFactory.newLatLngZoom(latLng1, 15);
+                    mMap.moveCamera(cu);
+                    mMap.setMyLocationEnabled(true);
+                    //add marker for all locations
+                    FirebaseFirestore db = FirebaseFirestore.getInstance();
+                    EventList results = new EventList();
+                    db.collection("events").get()
+                            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                @Override
+                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                    if (task.isSuccessful()) {
+                                        System.out.println("succeed!!!!!\n");
+                                        for (QueryDocumentSnapshot document : task.getResult()) {
+                                            Event event = document.toObject(Event.class);
+                                            results.addEvent(event);
+                                            //System.out.println(event.getLocation());
+                                            LatLng temploc = getLocationFromAddress(getContext(), event.getLocation(),true, event);
+                                            //Marker marker = mMap.addMarker(new MarkerOptions().position(temploc));
+                                            //markermap.put(marker.getId(), event.getID());
+                                        }
+                                        results.sort("price");
+                                    }
+                                    else {
+                                        System.out.println("No Event"+ task.getException().getMessage());
+                                    }
+
+                                }
+                            });
                 }
 
 //                LatLng currentlatlng=new LatLng(currentlocation.getLatitude(), currentlocation.getLongitude());
@@ -181,6 +243,11 @@ public class MapsFragment extends Fragment {
                     @Override
                     public boolean onMarkerClick(@NonNull Marker marker) {
                         BottomsheetFragment bottomSheet = new BottomsheetFragment();
+                        Bundle args = new Bundle();
+                        args.putString("currentid", markermap.get(marker.getId()));
+                        System.out.println(markermap);
+                        System.out.println("Id:"+marker.getId()+", eventid:"+markermap.get(marker.getId()));
+                        bottomSheet.setArguments(args);
                         bottomSheet.show(getActivity().getSupportFragmentManager(),bottomSheet.getTag());
                         return true;
                     }
@@ -196,11 +263,11 @@ public class MapsFragment extends Fragment {
                         // Set title of marker
                         markerOptions.title(latLng.latitude+" : "+latLng.longitude);
                         // Remove all marker
-                        googleMap.clear();
+                        //googleMap.clear();
                         // Animating to zoom the marker
                         googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng,10));
                         // Add marker on map
-                        googleMap.addMarker(markerOptions);
+                        //googleMap.addMarker(markerOptions);
                     }
                 });
             }
@@ -244,10 +311,11 @@ public class MapsFragment extends Fragment {
                                         currentlocation=location;
                                         System.out.println(currentlocation.getLatitude());
                                         LatLng currentlatlng=new LatLng(currentlocation.getLatitude(), currentlocation.getLongitude());
-                                        mMap.addMarker(new MarkerOptions().position(currentlatlng).title("Your position"));
-                                        CameraUpdate cu = CameraUpdateFactory.newLatLngZoom(currentlatlng, 12);;
-                                        mMap.moveCamera(cu);
-                                        mMap.setMyLocationEnabled(true);
+//                                        mMap.addMarker(new MarkerOptions().position(currentlatlng).title("Your position"));
+//                                        CameraUpdate cu = CameraUpdateFactory.newLatLngZoom(currentlatlng, 12);;
+//                                        mMap.moveCamera(cu);
+//                                        mMap.setMyLocationEnabled(true);
+
 //                                        mMap.setOnMyLocationButtonClickListener(this);
 //                                        mMap.setOnMyLocationClickListener(this);
                                     }
@@ -313,82 +381,45 @@ public class MapsFragment extends Fragment {
                 }
 
             }
+
+            public LatLng getLocationFromAddress(Context context, String strAddress, boolean hasmarker, Event event) {
+                Geocoder coder = new Geocoder(context);
+                List<Address> address;
+                LatLng p1 = null;
+                int trytime = 0;
+                while (trytime < 2) {
+                    try {
+                        // May throw an IOException
+                        address = coder.getFromLocationName(strAddress, 5);
+                        if (address == null) {
+                            return null;
+                        }
+
+                        Address location = address.get(0);
+                        p1 = new LatLng(location.getLatitude(), location.getLongitude());
+                        trytime=3;
+                        if(hasmarker) {
+                            Marker marker = mMap.addMarker(new MarkerOptions().position(p1).title("1"));
+                            System.out.println("event:"+event.getEventTitle()+", "+event.getID());
+                            markermap.put(marker.getId(), event.getID());
+                            marker.showInfoWindow();
+                        }
+                    } catch (IOException ex) {
+
+                        trytime++;
+                    }
+                    catch (Exception ex) {
+                        trytime++;
+                    }
+
+
+                }
+                return p1;
+            }
         });
         // Return view
         return view;
     }
 }
 
-//import androidx.activity.OnBackPressedCallback;
-//import androidx.annotation.NonNull;
-//import androidx.annotation.Nullable;
-//import androidx.fragment.app.Fragment;
-//
-//import android.os.Bundle;
-//import android.view.LayoutInflater;
-//import android.view.View;
-//import android.view.ViewGroup;
-//
-//import com.google.android.gms.maps.CameraUpdateFactory;
-//import com.google.android.gms.maps.GoogleMap;
-//import com.google.android.gms.maps.OnMapReadyCallback;
-//import com.google.android.gms.maps.SupportMapFragment;
-//import com.google.android.gms.maps.model.LatLng;
-//import com.google.android.gms.maps.model.MarkerOptions;
-//
-//public class MapsFragment extends Fragment {
-//
-//    // TODO: Rename parameter arguments, choose names that match
-//    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-//    private static final String ARG_PARAM1 = "param1";
-//    private static final String ARG_PARAM2 = "param2";
-//
-//    // TODO: Rename and change types of parameters
-//    private String mParam1;
-//    private String mParam2;
-//
-//    public MapsFragment() {
-//        // Required empty public constructor
-//    }
-//
-//    /**
-//     * Use this factory method to create a new instance of
-//     * this fragment using the provided parameters.
-//     *
-//     * @param param1 Parameter 1.
-//     * @param param2 Parameter 2.
-//     * @return A new instance of fragment MapsFragment.
-//     */
-//    // TODO: Rename and change types and number of parameters
-//    public static MapsFragment newInstance(String param1, String param2) {
-//        MapsFragment fragment = new MapsFragment();
-//        Bundle args = new Bundle();
-//        args.putString(ARG_PARAM1, param1);
-//        args.putString(ARG_PARAM2, param2);
-//        fragment.setArguments(args);
-//        return fragment;
-//    }
-//
-//    @Override
-//    public void onCreate(Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//        OnBackPressedCallback callback = new OnBackPressedCallback(true /* enabled by default */) {
-//            @Override
-//            public void handleOnBackPressed() {
-//                return;
-//            }
-//        };
-//        requireActivity().getOnBackPressedDispatcher().addCallback(this, callback);
-//        if (getArguments() != null) {
-//            mParam1 = getArguments().getString(ARG_PARAM1);
-//            mParam2 = getArguments().getString(ARG_PARAM2);
-//        }
-//    }
-//
-//    @Override
-//    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-//                             Bundle savedInstanceState) {
-//        // Inflate the layout for this fragment
-//        return inflater.inflate(R.layout.fragment_maps, container, false);
-//    }
-//}
+
