@@ -1,5 +1,7 @@
 package edu.usc.eventme;
 import java.io.Serializable;
+import java.lang.reflect.Array;
+
 import java.util.Comparator;
 import java.lang.reflect.Array;
 import java.util.List;
@@ -11,6 +13,8 @@ public class EventList implements Serializable {
     private String sorting;
     private String keyWord;
 
+    private double currentlat;
+    private double currentlon;
     public EventList() {
         eventList=new ArrayList<Event>();
     };
@@ -26,7 +30,29 @@ public class EventList implements Serializable {
             case "cost":
                 Collections.sort(eventList, new sortByCost());
             case "distance":
+                //Collections.sort(eventList, new sortByDistance());
         }
+    }
+
+    public void setCurrentlat(double lat){currentlat=lat;}
+    public void setCurrentlon(double lon){currentlon=lon;}
+
+    public void sortbydistoloc(double lat, double lon){
+        currentlon=lon;
+        currentlat=lat;
+        Collections.sort(eventList, new sortByDistance());
+    }
+
+    public void sortbydis(){
+        Collections.sort(eventList, new sortByDistance());
+    }
+
+    public double getCurrentlat() {
+        return currentlat;
+    }
+
+    public double getCurrentlon() {
+        return currentlon;
     }
 
     public void addEvent(Event e){
@@ -53,33 +79,38 @@ public class EventList implements Serializable {
         return null;
     }
 
-}
+    public ArrayList<Event> getList(){
+        return eventList;
+    }
 
-class sortByCost implements Comparator<Event>{
-    public int compare(Event a, Event b){
-        if(a.getCost().length()>b.getCost().length()){
-            return 1;
+
+    class sortByCost implements Comparator<Event>{
+        public int compare(Event a, Event b){
+            if(a.getCost().length()>b.getCost().length()){
+                return 1;
+            }
+            else if(a.getCost().length()<b.getCost().length()){
+                return -1;
+            }
+            else{
+                return 0;
+            }
         }
-        else if(a.getCost().length()<b.getCost().length()){
-            return -1;
-        }
-        else{
-            return 0;
+    }
+
+    //need to calculate distance first
+    class sortByDistance implements Comparator<Event>{
+        public int compare(Event a, Event b){
+            if(a.findDis(currentlat, currentlon)>b.findDis(currentlat, currentlon)){
+                return 1;
+            }
+        else if(a.findDis(currentlat, currentlon)<b.findDis(currentlat, currentlon)){
+                return -1;
+            }
+            else{
+                return 0;
+            }
         }
     }
 }
 
-//need to calculate distance first
-/*class sortByDistance implements Comparator<Event>{
-    public int compare(Event a, Event b){
-        if(a.getCost()>b.getCost()){
-            return 1;
-        }
-        else if(a.getCost()<b.getCost()){
-            return -1;
-        }
-        else{
-            return 0;
-        }
-    }
-}*/

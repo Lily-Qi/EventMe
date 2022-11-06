@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <Button
+        android:id="@+id/backToResult"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="36dp"
+        android:text="@string/backicon"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        android:layout_marginTop="20dp"
+        app:layout_constraintBottom_toTopOf="@+id/eImage"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.488" />
+
+    <Button
+        android:id="@+id/register"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="register"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.693"
+        app:layout_constraintStart_toEndOf="@+id/backToResult"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/eImage"
+        android:layout_width="240dp"
+        android:layout_height="130dp"
+        android:layout_marginTop="80dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:srcCompat="@tools:sample/avatars" />
+
+    <TextView
+        android:id="@+id/eName"
+        android:layout_width="370dp"
+        android:layout_height="30dp"
+        android:layout_marginBottom="20dp"
+        android:layout_marginTop="20dp"
+        android:fontFamily="@font/montserrat_black"
+        android:gravity="left"
+        android:text="Title"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/eLocation"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.609"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/eImage"
+        />
+
+    <TextView
+        android:id="@+id/eLocation"
+        android:layout_width="370dp"
+        android:layout_height="30dp"
+        android:layout_marginBottom="20dp"
+        android:fontFamily="@font/montserrat_black"
+        android:gravity="left"
+        android:text="Location: "
+        android:textSize="12sp"
+        app:layout_constraintBottom_toTopOf="@+id/eDate"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.512"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/eDate"
+        android:layout_width="175dp"
+        android:layout_height="21dp"
+        android:layout_marginBottom="20dp"
+        android:layout_marginStart="10dp"
+        android:fontFamily="@font/montserrat_black"
+        android:text="Date"
+        android:textSize="15sp"
+        app:layout_constraintBottom_toTopOf="@+id/eCost"
+        app:layout_constraintEnd_toStartOf="@+id/eTime"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/eTime"
+        android:layout_width="175dp"
+        android:layout_height="20dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="20dp"
+        android:fontFamily="@font/montserrat_black"
+        android:gravity="left"
+        android:text="Time"
+        android:textSize="15sp"
+        app:layout_constraintBottom_toTopOf="@+id/eCost"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <TextView
+        android:id="@+id/eCost"
+        android:layout_width="370dp"
+        android:layout_height="25dp"
+        android:fontFamily="@font/montserrat_black"
+        android:gravity="left"
+        android:text="Cost"
+        android:textSize="15sp"
+        android:layout_marginStart="10dp"
+        android:layout_marginBottom="20dp"
+        app:layout_constraintBottom_toTopOf="@+id/sponceringOrganization"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/sponceringOrganization"
+        android:layout_width="370dp"
+        android:layout_height="25dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginBottom="20dp"
+        android:fontFamily="@font/montserrat_black"
+        android:gravity="left"
+        android:text="Sponsoring Organization"
+        android:textSize="15sp"
+        app:layout_constraintBottom_toTopOf="@+id/parking"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/parking"
+        android:layout_width="370dp"
+        android:layout_height="25dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginBottom="20dp"
+        android:fontFamily="@font/montserrat_black"
+        android:gravity="left"
+        android:text="parking"
+        android:textSize="15sp"
+        app:layout_constraintBottom_toTopOf="@+id/eType"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/eType"
+        android:layout_width="370dp"
+        android:layout_height="25dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginBottom="20dp"
+        android:fontFamily="@font/montserrat_black"
+        android:gravity="left"
+        android:text="eType"
+        android:textSize="15sp"
+        app:layout_constraintBottom_toTopOf="@+id/description"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/description"
+        android:layout_width="368dp"
+        android:layout_height="77dp"
+        android:layout_marginBottom="20dp"
+        android:layout_marginStart="10dp"
+        android:fontFamily="@font/montserrat_black"
+        android:gravity="left"
+        android:text="description"
+        android:textSize="15sp"
+        app:layout_constraintBottom_toTopOf="@+id/numUser"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/numUser"
+        android:layout_width="370dp"
+        android:layout_height="25dp"
+        android:layout_marginStart="10dp"
+        android:fontFamily="@font/montserrat_black"
+        android:gravity="left"
+        android:text="numUser"
+        android:textSize="15sp"
+        android:layout_marginBottom="50dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,5 +1,6 @@
 package edu.usc.eventme;
 
+import android.annotation.SuppressLint;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
@@ -10,7 +11,7 @@ import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.view.MenuItemCompat;
+import androidx.databinding.adapters.SearchViewBindingAdapter;
 import androidx.fragment.app.Fragment;
 
 import android.util.Log;
@@ -43,12 +44,11 @@ import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -103,6 +103,18 @@ public class ExploreFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_explore, container, false);
         toolbar = view.findViewById(R.id.toolbar);
         searchView = view.findViewById(R.id.searchView);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                searchByKeyword(s);
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+                return false;
+            }
+        });
         music = view.findViewById(R.id.image_music);
         music.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -128,29 +140,27 @@ public class ExploreFragment extends Fragment {
         art.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mysearch("Art","category");
+                mysearch("Arts","category");
+
             }
         });
 
 
         start = view.findViewById(R.id.startDate);
         end = view.findViewById(R.id.endDate);
-        startDate=start.getText().toString();
-        endDate=end.getText().toString();
         bt = view.findViewById(R.id.button2);
         bt.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onClick(View v) {
-                DateTimeFormatter f = DateTimeFormatter.ofPattern( "yyyy-mm-dd" );
-
-                LocalDateTime start = LocalDateTime.parse( startDate , f ) ;
-                LocalDateTime stop = LocalDateTime.parse( endDate , f ) ;
-                boolean isBefore = start.isBefore( stop ) ;
-                if(isBefore)
+                startDate=start.getText().toString();
+                endDate=end.getText().toString();
+                int check = startDate.compareTo(endDate) ;
+                if(check<0)
                     searchByDate(startDate, endDate);
                 else
-                    showMessage("The start date should be earlier than the end date");
+                    showMessage("The start date should be earlier than the end date"+startDate+" "+endDate+" "+check);
+
             }
         });
         AppCompatActivity activity = (AppCompatActivity) getActivity();
@@ -194,7 +204,7 @@ public class ExploreFragment extends Fragment {
 //
 //            @Override
 //            public boolean onQueryTextChange(String query) {
-//                mysearch(query);
+//                mysearch(query)2
 //                return true;
 //            }
 //        });
@@ -229,11 +239,12 @@ public class ExploreFragment extends Fragment {
     }
 
     //search with two inputs
+    @RequiresApi(api = Build.VERSION_CODES.O)
     private void searchByDate(String query, String query2) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         Intent intent = new Intent(getActivity(), EventBoxes.class);
         EventList results = new EventList();
-        Query search = db.collection("events").whereEqualTo("startDate",query).whereEqualTo("endDate", query2);
+        Query search = db.collection("events");
         search.get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -243,14 +254,60 @@ public class ExploreFragment extends Fragment {
                                 Event event = document.toObject(Event.class);
                                 results.addEvent(event);
                             }
-                            results.sort("price");
-                            intent.putExtra("searchResult", results);
-                            startActivity(intent);
+
                         } else {
                             showMessage("No Event"+ task.getException().getMessage());
                         }
+                        EventList searchRe = new EventList();
+                        showMessage(String.valueOf(results.getEventList().size()));
+                        for(Event e:results.getEventList()){
+                            String startD=e.getStartDate();
+                            String endD=e.getEndDate();
+                            if(query.compareTo(endD)<=0||startD.compareTo(query2)<=0){
+                                searchRe.addEvent(e);
+                            }
+                        }
+                        searchRe.sort("cost");
+                        intent.putExtra("searchResult", searchRe);
+                        startActivity(intent);
                     }
                 });
+
+    }
+
+    private void searchByKeyword(String keyword){
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        Intent intent = new Intent(getActivity(), EventBoxes.class);
+        EventList results = new EventList();
+        Query search = db.collection("events");
+        search.get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                Event event = document.toObject(Event.class);
+                                results.addEvent(event);
+                            }
+                        } else {
+                            showMessage("No Event"+ task.getException().getMessage());
+                        }
+                        showMessage(String.valueOf(results.getEventList().size()));
+                        EventList searchRe = new EventList();
+                        for(Event e:results.getEventList()){
+                            String name = e.getEventTitle();
+                            String organize = e.getSponsoringOrganization();
+                            String location = e.getLocation();
+                            if(name.toLowerCase().contains(keyword.toLowerCase())|organize.toLowerCase().contains(keyword.toLowerCase())|location.toLowerCase().contains(keyword)){
+                                searchRe.addEvent(e);
+                            }
+                        }
+                        searchRe.sort("cost");
+                        intent.putExtra("searchResult", searchRe);
+                        startActivity(intent);
+                    }
+                });
+
     }
 
     private void searchByKeyword(String keyword){
@@ -290,3 +347,4 @@ public class ExploreFragment extends Fragment {
     }
 
 }
+
