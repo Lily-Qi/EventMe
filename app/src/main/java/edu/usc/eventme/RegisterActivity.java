@@ -79,7 +79,6 @@ public class RegisterActivity extends AppCompatActivity {
         registerButton = findViewById(R.id.loginButton);
         registerProgress.setVisibility(View.GONE);
 
-
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
         if (mAuth.getCurrentUser() != null) {

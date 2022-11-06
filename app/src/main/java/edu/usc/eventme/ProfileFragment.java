@@ -242,17 +242,17 @@ public class ProfileFragment extends Fragment {
             eventName.setText(event.getEventTitle());
             eventOrg.setText(event.getSponsoringOrganization());
             eventLoc.setText(event.getLocation());
-            eventDate.setText(event.getStartDate() + "-\n" + event.getEndDate());
-            eventTime.setText(event.getStartDate()+"-"+event.getEndTime());
+            eventDate.setText(event.getStartDate() + " to " + event.getEndDate());
+            eventTime.setText(event.getStartDate()+" to "+event.getEndTime());
             eventCost.setText(event.getCost());
             Picasso.get().load(event.getPhotoURL()).into(eventImage);
         }
         showEventButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent mainActivity = new Intent(getContext(), EventRegisterActivity.class);
+                Intent mainActivity = new Intent(getContext(), UserEventList.class);
+                mainActivity.putExtra("userList", user.getUserEventList());
                 startActivity(mainActivity);
-                finishFragment();
             }
         });
 

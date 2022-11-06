@@ -30,7 +30,7 @@ public class EventRegisterActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private FirebaseUser currentUser;
     private FirebaseFirestore db;
-    private ImageView eventPhoto;
+    private ImageView eventPhoto, backButton;
     private Button registerButton;
     private Toolbar toolbar;
     private TextView eventName, numRegistered, costNType, location, date, time;
@@ -48,7 +48,10 @@ public class EventRegisterActivity extends AppCompatActivity {
         db = FirebaseFirestore.getInstance();
         mAuth = FirebaseAuth.getInstance();
         currentUser = mAuth.getCurrentUser();
-        eventID = "1";
+        EventList results = (EventList) getIntent().getSerializableExtra("Events");
+        int p = getIntent().getIntExtra("position",0);
+        event = results.getEventList().get(p);
+        eventID = event.getId();
 
         toolbar = findViewById(R.id.toolbar);
         eventPhoto = findViewById(R.id.eventPhoto);
@@ -64,49 +67,58 @@ public class EventRegisterActivity extends AppCompatActivity {
         conflictMessage = findViewById(R.id.conflictMessage);
         time = findViewById(R.id.time);
         eventProgressBar = findViewById(R.id.eventProgressBar);
+        backButton = findViewById(R.id.backButton);
+
         getUser();
-        getEvent(eventID);
+        //getEvent(eventID);
     }
 
-    private boolean getEvent(String eventID) {
-        DocumentReference docRef = db.collection("events").document(eventID);
-        if (!eventID.isEmpty()) {
-            docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                @Override
-                public void onSuccess(DocumentSnapshot documentSnapshot) {
-                    event = documentSnapshot.toObject(Event.class);
-                    if (user != null) {
-                        updateUI();
-                    }
-                }
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        getUser();
+        //getEvent(eventID);
+    }
 
+//    private boolean getEvent(String eventID) {
+//        DocumentReference docRef = db.collection("events").document(eventID);
+//        if (!eventID.isEmpty()) {
+//            docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
 //                @Override
-//                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-//                    if (task.isSuccessful()) {
-//                        DocumentSnapshot document = task.getResult();
-//                        if (document.exists()) {
-//                            event = document.toObject(Event.class);
-//                        } else {
-//                            Log.i("Activity", "not ready");
-//                        }
-//                    } else {
-//                        showMessage(task.getException().getMessage());
+//                public void onSuccess(DocumentSnapshot documentSnapshot) {
+//                    event = documentSnapshot.toObject(Event.class);
+//                    if (user != null) {
+//                        updateUI();
 //                    }
 //                }
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    showMessage(e.getMessage());
-                }
-            });
-            if (event != null) {
-                return true;
-            }
-        } else {
-            return false;
-        }
-        return false;
-    }
+//
+////                @Override
+////                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+////                    if (task.isSuccessful()) {
+////                        DocumentSnapshot document = task.getResult();
+////                        if (document.exists()) {
+////                            event = document.toObject(Event.class);
+////                        } else {
+////                            Log.i("Activity", "not ready");
+////                        }
+////                    } else {
+////                        showMessage(task.getException().getMessage());
+////                    }
+////                }
+//            }).addOnFailureListener(new OnFailureListener() {
+//                @Override
+//                public void onFailure(@NonNull Exception e) {
+//                    showMessage(e.getMessage());
+//                }
+//            });
+//            if (event != null) {
+//                return true;
+//            }
+//        } else {
+//            return false;
+//        }
+//        return false;
+//    }
 
     private boolean getUser() {
         if (currentUser != null) {
@@ -154,11 +166,17 @@ public class EventRegisterActivity extends AppCompatActivity {
         eventOrganization.setText(event.getSponsoringOrganization());
         costNType.setText(event.getCost()+" · " + event.getCategory());
         location.setText(event.getLocation());
-        date.setText(event.getStartDate()+" - "+ event.getEndDate());
-        time.setText(event.getStartTime()+"-"+event.getEndTime());
+        date.setText(event.getStartDate()+" to "+ event.getEndDate());
+        time.setText(event.getStartTime()+" to "+event.getEndTime());
         numRegistered.setText(event.getNumUser()+" People Registered");
         eventDescription.setText(event.getDescription());
         Picasso.get().load(event.getPhotoURL()).fit().centerCrop().into(eventPhoto);
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
         if(event.getParking()) {
             eventParking.setText("There are parking lots near the event");
         } else {
