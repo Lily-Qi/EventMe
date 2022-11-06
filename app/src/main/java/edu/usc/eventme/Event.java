@@ -1,11 +1,13 @@
 package edu.usc.eventme;
 import java.util.ArrayList;
 import java.util.List;
+import java.io.Serializable;
 
-public class Event {
+@SuppressWarnings("serial")
+public class Event implements Serializable {
 
     private String location;
-    private String ID;
+    private String id;
     private String eventTitle;
     private String category;
     private String endDate;
@@ -23,8 +25,8 @@ public class Event {
 
     }
 
-    public Event(String ID,String eventTitle, String category, String endDate, String startDate, String endTime, String startTime, int numUser, String description, String cost, Boolean parking, String sponsoringOrganization, String photoURL, String location) {
-        this.ID = ID;
+    public Event(String id,String eventTitle, String category, String endDate, String startDate, String endTime, String startTime, int numUser, String description, String cost, Boolean parking, String sponsoringOrganization, String photoURL, String location) {
+        this.id = id;
         this.eventTitle = eventTitle;
         this.category = category;
         this.endDate = endDate;
@@ -41,7 +43,7 @@ public class Event {
     }
 
     public String getID() {
-        return ID;
+        return id;
     }
 
     public String getCategory() {

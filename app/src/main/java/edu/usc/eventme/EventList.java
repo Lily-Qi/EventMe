@@ -1,10 +1,12 @@
 package edu.usc.eventme;
+import java.io.Serializable;
+import java.lang.reflect.Array;
 import java.util.Comparator;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class EventList {
+public class EventList implements Serializable {
     private ArrayList<Event> eventList;
     private String sorting;
     private String keyWord;
@@ -13,7 +15,7 @@ public class EventList {
         eventList=new ArrayList<Event>();
     };
 
-    public List<Event> getEventList() {
+    public ArrayList<Event> getEventList() {
         return eventList;
     }
     public void formList(String sort, String key){
@@ -44,6 +46,10 @@ public class EventList {
         }
 
         return null;
+    }
+
+    public ArrayList<Event> getList(){
+        return eventList;
     }
 
 }

@@ -2,10 +2,13 @@ package edu.usc.eventme;
 
 import android.app.SearchManager;
 import android.content.Context;
+import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.MenuItemCompat;
 import androidx.fragment.app.Fragment;
@@ -31,6 +34,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.core.EventTarget;
+import com.google.firebase.database.core.view.EventGenerator;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -39,6 +43,8 @@ import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -105,8 +111,26 @@ public class ExploreFragment extends Fragment {
             }
         });
         outdoor = view.findViewById(R.id.image_outdoor);
+        outdoor.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mysearch("Outdoor","category");
+            }
+        });
         food = view.findViewById(R.id.image_food);
+        food.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mysearch("Food","category");
+            }
+        });
         art = view.findViewById(R.id.image_art);
+        art.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mysearch("Art","category");
+            }
+        });
 
 
         start = view.findViewById(R.id.startDate);
@@ -115,9 +139,18 @@ public class ExploreFragment extends Fragment {
         endDate=end.getText().toString();
         bt = view.findViewById(R.id.button2);
         bt.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onClick(View v) {
-                searchByDate(startDate, endDate);
+                DateTimeFormatter f = DateTimeFormatter.ofPattern( "yyyy-mm-dd" );
+
+                LocalDateTime start = LocalDateTime.parse( startDate , f ) ;
+                LocalDateTime stop = LocalDateTime.parse( endDate , f ) ;
+                boolean isBefore = start.isBefore( stop ) ;
+                if(isBefore)
+                    searchByDate(startDate, endDate);
+                else
+                    showMessage("The start date should be earlier than the end date");
             }
         });
         gridLayout = view.findViewById(R.id.gridLayout01);
@@ -171,22 +204,27 @@ public class ExploreFragment extends Fragment {
 
     private void mysearch(String query, String searchBy) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
+        Intent intent = new Intent(getActivity(), EventBoxes.class);
         String keyWord = query;
         String type = searchBy;
+        EventList results = new EventList();
         Query search = db.collection("events").whereEqualTo(type,keyWord);
         search.get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
-                            EventList result = new EventList();
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 Event event = document.toObject(Event.class);
-                                showMessage("found" + event.getEventTitle().toString());
+                                results.addEvent(event);
                             }
+                            results.sort("cost");
+                            intent.putExtra("searchResult", results);
+                            startActivity(intent);
                         } else {
                             showMessage("No Event"+ task.getException().getMessage());
                         }
+
                     }
                 });
     }
@@ -194,6 +232,8 @@ public class ExploreFragment extends Fragment {
     //search with two inputs
     private void searchByDate(String query, String query2) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
+        Intent intent = new Intent(getActivity(), EventBoxes.class);
+        EventList results = new EventList();
         Query search = db.collection("events").whereEqualTo("startDate",query).whereEqualTo("endDate", query2);
         search.get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -202,12 +242,19 @@ public class ExploreFragment extends Fragment {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 Event event = document.toObject(Event.class);
+                                results.addEvent(event);
                             }
+                            results.sort("price");
+                            intent.putExtra("searchResult", results);
+                            startActivity(intent);
                         } else {
                             showMessage("No Event"+ task.getException().getMessage());
                         }
                     }
                 });
+    }
+
+    private void searchByKeyword(String keyword){
     }
 
 
@@ -242,4 +289,5 @@ public class ExploreFragment extends Fragment {
     private void showMessage(String message) {
         Toast.makeText(getContext(), message, Toast.LENGTH_LONG).show();
     }
+
 }

@@ -52,6 +52,11 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".EventBoxes"
+            android:exported="true" />
+
+        <activity android:name=".Details"
+            android:exported="true" />
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
