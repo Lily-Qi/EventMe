@@ -26,7 +26,6 @@ public class EventList implements Serializable {
             case "cost":
                 Collections.sort(eventList, new sortByCost());
             case "distance":
-
         }
     }
 
@@ -37,6 +36,7 @@ public class EventList implements Serializable {
     public void removeEvent(Event e){
         eventList.remove(e);
     }
+
 
     public Event getEvent(String n){
         for(Event e:eventList){
@@ -82,4 +82,3 @@ class sortByCost implements Comparator<Event>{
         }
     }
 }*/
-
