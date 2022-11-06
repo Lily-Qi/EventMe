@@ -68,6 +68,7 @@ public class EventRegisterActivity extends AppCompatActivity {
         time = findViewById(R.id.time);
         eventProgressBar = findViewById(R.id.eventProgressBar);
         backButton = findViewById(R.id.backButton);
+        conflictMessage.setVisibility(View.GONE);
 
         getUser();
         //getEvent(eventID);
@@ -187,6 +188,9 @@ public class EventRegisterActivity extends AppCompatActivity {
             if (user.eventExist(eventID)) {
                 updateToUnregister();
             } else {
+                if (user.checkConflict(event)) {
+                    conflictMessage.setVisibility(View.VISIBLE);
+                }
                 updateToRegister();
             }
         } else {
