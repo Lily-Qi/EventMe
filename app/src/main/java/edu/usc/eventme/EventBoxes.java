@@ -16,7 +16,8 @@ public class EventBoxes extends AppCompatActivity {
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.bottomsheet_layout);
+        setContentView(R.layout.eventboxses_layout);
+
         EventList results = (EventList) getIntent().getSerializableExtra("searchResult");
         ry = findViewById(R.id.recyclerView);
         back = findViewById(R.id.back);
@@ -27,6 +28,7 @@ public class EventBoxes extends AppCompatActivity {
                 startActivity(toMain);
             }
         });
+
 
         MyAdaptor myAdaptor = new MyAdaptor(this, results);
         ry.setAdapter(myAdaptor);
