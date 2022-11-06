@@ -1,5 +1,6 @@
 package edu.usc.eventme;
 
+import android.annotation.SuppressLint;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
@@ -10,6 +11,7 @@ import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.databinding.adapters.SearchViewBindingAdapter;
 import androidx.fragment.app.Fragment;
 
 import android.util.Log;
@@ -100,6 +102,18 @@ public class ExploreFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_explore, container, false);
         toolbar = view.findViewById(R.id.toolbar);
         searchView = view.findViewById(R.id.searchView);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                searchByKeyword(s);
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+                return false;
+            }
+        });
         music = view.findViewById(R.id.image_music);
         music.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -242,25 +256,56 @@ public class ExploreFragment extends Fragment {
                         } else {
                             showMessage("No Event"+ task.getException().getMessage());
                         }
+                        EventList searchRe = new EventList();
+                        showMessage(String.valueOf(results.getEventList().size()));
+                        for(Event e:results.getEventList()){
+                            String startD=e.getStartDate();
+                            String endD=e.getEndDate();
+                            if(query.compareTo(endD)<=0||startD.compareTo(query2)<=0){
+                                searchRe.addEvent(e);
+                            }
+                        }
+                        searchRe.sort("cost");
+                        intent.putExtra("searchResult", searchRe);
+                        startActivity(intent);
                     }
                 });
-        EventList searchRe = new EventList();
-        for(Event e:results.getEventList()){
-            String startD=e.getStartDate();
-            String endD=e.getEndDate();
-            if(query.compareTo(endD)<=0||startD.compareTo(query2)<=0){
-                searchRe.addEvent(e);
-            }
-        }
-        intent.putExtra("searchResult", searchRe);
-        startActivity(intent);
+
     }
 
     private void searchByKeyword(String keyword){
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         Intent intent = new Intent(getActivity(), EventBoxes.class);
         EventList results = new EventList();
-        Query search = db.collection("events").whereEqualTo("startDate",keyword);
+        Query search = db.collection("events");
+        search.get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                Event event = document.toObject(Event.class);
+                                results.addEvent(event);
+                            }
+
+                        } else {
+                            showMessage("No Event"+ task.getException().getMessage());
+                        }
+                        showMessage(String.valueOf(results.getEventList().size()));
+                        EventList searchRe = new EventList();
+                        for(Event e:results.getEventList()){
+                            String name = e.getEventTitle();
+                            String organize = e.getSponsoringOrganization();
+                            String location = e.getLocation();
+                            if(name.toLowerCase().contains(keyword.toLowerCase())|organize.toLowerCase().contains(keyword.toLowerCase())|location.toLowerCase().contains(keyword)){
+                                searchRe.addEvent(e);
+                            }
+                        }
+                        searchRe.sort("cost");
+                        intent.putExtra("searchResult", searchRe);
+                        startActivity(intent);
+                    }
+                });
 
     }
 

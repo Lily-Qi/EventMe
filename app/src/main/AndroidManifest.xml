@@ -39,7 +39,7 @@
         -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="${MAPS_API_KEY}" />
+            android:value="AIzaSyDcHkBuK_91cmw6jwgBvyaw5A_IGw5pj6s" />
 
         <activity
             android:name=".MainActivity"
@@ -63,9 +63,6 @@
         </activity>
 
         <activity android:name=".EventBoxes"
-            android:exported="true" />
-
-        <activity android:name=".Details"
             android:exported="true" />
         <meta-data
             android:name="preloaded_fonts"
