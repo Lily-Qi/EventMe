@@ -27,8 +27,8 @@ public class Event implements Serializable {
 
     }
 
-    public Event(String id,String eventTitle, String category, String endDate, String startDate, String endTime, String startTime, int numUser, String description, String cost, Boolean parking, String sponsoringOrganization, String photoURL, String location, double latitude, double longitude) {
 
+    public Event(String id,String eventTitle, String category, String endDate, String startDate, String endTime, String startTime, int numUser, String description, String cost, Boolean parking, String sponsoringOrganization, String photoURL, String location) {
         this.id = id;
         this.eventTitle = eventTitle;
         this.category = category;
@@ -47,7 +47,7 @@ public class Event implements Serializable {
         this.longitude = longitude;
     }
 
-    public String getID() {
+    public String getId() {
         return id;
     }
 

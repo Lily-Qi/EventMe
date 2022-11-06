@@ -44,6 +44,7 @@ import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -140,6 +141,7 @@ public class ExploreFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 mysearch("Arts","category");
+
             }
         });
 
@@ -158,9 +160,9 @@ public class ExploreFragment extends Fragment {
                     searchByDate(startDate, endDate);
                 else
                     showMessage("The start date should be earlier than the end date"+startDate+" "+endDate+" "+check);
+
             }
         });
-        gridLayout = view.findViewById(R.id.gridLayout01);
         AppCompatActivity activity = (AppCompatActivity) getActivity();
         activity.setSupportActionBar(toolbar);
         //activity.setSupportActionBar().setTitle("Custom Toolbar");
@@ -287,7 +289,6 @@ public class ExploreFragment extends Fragment {
                                 Event event = document.toObject(Event.class);
                                 results.addEvent(event);
                             }
-
                         } else {
                             showMessage("No Event"+ task.getException().getMessage());
                         }
@@ -307,6 +308,9 @@ public class ExploreFragment extends Fragment {
                     }
                 });
 
+    }
+
+    private void searchByKeyword(String keyword){
     }
 
 
@@ -343,3 +347,4 @@ public class ExploreFragment extends Fragment {
     }
 
 }
+

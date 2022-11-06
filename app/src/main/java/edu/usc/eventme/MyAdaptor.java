@@ -1,7 +1,7 @@
 package edu.usc.eventme;
 
-
 import android.annotation.SuppressLint;
+
 
 import android.content.Context;
 import android.content.Intent;
@@ -70,7 +70,6 @@ public class MyAdaptor extends RecyclerView.Adapter<MyAdaptor.ViewHolder>{
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         TextView eventName, eventLocation, eventDate, eventTime, eventCost, sponcer, distance;
-
         ImageView eventImage;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -88,12 +87,10 @@ public class MyAdaptor extends RecyclerView.Adapter<MyAdaptor.ViewHolder>{
 
         @Override
         public void onClick(View view) {
-            Intent intent = new Intent(view.getContext(), Details.class);
-            intent.putExtra("Events",result);
-            intent.putExtra("position",getAdapterPosition());
+            Intent intent = new Intent(view.getContext(), EventRegisterActivity.class);
+            intent.putExtra("Event", result.getEventList().get(getAdapterPosition()));
             view.getContext().startActivity(intent);
         }
-
     }
 
     @Override

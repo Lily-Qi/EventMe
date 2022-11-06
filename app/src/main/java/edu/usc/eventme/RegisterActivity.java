@@ -51,6 +51,8 @@ public class RegisterActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
     private FirebaseFirestore db;
+    private ProgressBar registerProgress;
+    private Button registerButton;
 
     //get the uri of the chosen photo and place that on the profile photo
     ActivityResultLauncher<String> mGetContent = registerForActivityResult(new ActivityResultContracts.GetContent(),
@@ -73,6 +75,9 @@ public class RegisterActivity extends AppCompatActivity {
         userBirthday = findViewById(R.id.editTextBirthday);
         userPassword = findViewById(R.id.editTextPW);
         userConfirmPassword = findViewById(R.id.editTextConfirmPW);
+        registerProgress = findViewById(R.id.registerProgress);
+        registerButton = findViewById(R.id.loginButton);
+        registerProgress.setVisibility(View.GONE);
 
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
@@ -111,7 +116,10 @@ public class RegisterActivity extends AppCompatActivity {
             showMessage("Please enter a valid date");
             return;
         } else {
+            registerProgress.setVisibility(View.VISIBLE);
+            registerButton.setEnabled(false);
             CreateUserAccount(email,name,password,birthday,pickedImgUri);
+
         }
     }
 
@@ -133,6 +141,8 @@ public class RegisterActivity extends AppCompatActivity {
                         } else {
                             // If sign in fails, display a message to the user.
                             showMessage("Authentication failed." + task.getException().getMessage());
+                            registerProgress.setVisibility(View.GONE);
+                            registerButton.setEnabled(true);
                         }
                     }
                 });
@@ -171,6 +181,8 @@ public class RegisterActivity extends AppCompatActivity {
                             @Override
                             public void onFailure(@NonNull Exception e) {
                                 Log.w(TAG, "Error writing document", e);
+                                registerProgress.setVisibility(View.GONE);
+                                registerButton.setEnabled(true);
                             }
                         });
 
@@ -178,6 +190,8 @@ public class RegisterActivity extends AppCompatActivity {
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
+                        registerProgress.setVisibility(View.GONE);
+                        registerButton.setEnabled(true);
                         showMessage(e.getMessage());
                     }
                 });
@@ -187,6 +201,8 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private void updateUI() {
+        registerProgress.setVisibility(View.GONE);
+        registerButton.setEnabled(true);
         Intent mainActivity = new Intent(this, MainActivity.class);
         startActivity(mainActivity);
         finish();

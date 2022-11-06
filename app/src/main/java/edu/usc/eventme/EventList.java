@@ -1,7 +1,9 @@
 package edu.usc.eventme;
 import java.io.Serializable;
 import java.lang.reflect.Array;
+
 import java.util.Comparator;
+import java.lang.reflect.Array;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -58,12 +60,18 @@ public class EventList implements Serializable {
     }
 
     public void removeEvent(Event e){
-        eventList.remove(e);
+        for (int i = 0; i < eventList.size(); i++) {
+            if (eventList.get(i).getId().equals(e.getId())) {
+                eventList.remove(eventList.get(i));
+                return;
+            }
+        }
+
     }
 
     public Event getEvent(String n){
         for(Event e:eventList){
-            if(e.getID().equals(n)){
+            if(e.getId().equals(n)){
                 return e;
             }
         }
