@@ -238,6 +238,8 @@
                     android:text="Begin To Register \n Your First Event"
                     android:textColor="@color/orange_theme"
                     android:textSize="24sp"
+                    android:layout_marginTop="30dp"
+                    android:layout_marginBottom="30dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"

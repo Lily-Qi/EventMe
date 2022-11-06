@@ -48,10 +48,9 @@ public class EventRegisterActivity extends AppCompatActivity {
         db = FirebaseFirestore.getInstance();
         mAuth = FirebaseAuth.getInstance();
         currentUser = mAuth.getCurrentUser();
-        EventList results = (EventList) getIntent().getSerializableExtra("Events");
-        int p = getIntent().getIntExtra("position",0);
-        event = results.getEventList().get(p);
+        event = (Event) getIntent().getSerializableExtra("Event");
         eventID = event.getId();
+        //eventID = "20";
 
         toolbar = findViewById(R.id.toolbar);
         eventPhoto = findViewById(R.id.eventPhoto);
