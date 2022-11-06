@@ -1,7 +1,9 @@
 package edu.usc.eventme;
 import java.util.ArrayList;
 import java.util.List;
-public class Event {
+import java.io.Serializable;
+@SuppressWarnings("serial")
+public class Event implements Serializable {
 
     private String location;
     private String id;

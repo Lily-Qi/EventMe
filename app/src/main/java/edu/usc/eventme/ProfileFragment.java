@@ -5,9 +5,7 @@ import android.os.Bundle;
 
 import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -21,9 +19,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
@@ -64,7 +60,10 @@ public class ProfileFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        getUser();
+        if (currentUser != null) {
+            getUser();
+        }
+
     }
 
     @Override
@@ -85,7 +84,7 @@ public class ProfileFragment extends Fragment {
         eventOrg = profileView.findViewById(R.id.eventOrg);
         eventCost = profileView.findViewById(R.id.eventCost);
         eventLoc = profileView.findViewById(R.id.eventLoc);
-        eventDate = profileView.findViewById(R.id.eventDate);
+        eventDate = profileView.findViewById(R.id.eventLocation);
         eventTime = profileView.findViewById(R.id.eventTime);
         emptyListMessage = profileView.findViewById(R.id.emptyListMessage);
         emptyListMessage.setVisibility(View.GONE);

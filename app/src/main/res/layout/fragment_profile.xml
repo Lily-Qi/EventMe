@@ -135,7 +135,8 @@
 
                 <TextView
                     android:id="@+id/eventName"
-                    android:layout_width="wrap_content"
+                    android:layout_width="200dp"
+                    android:maxLines="2"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="28dp"
                     android:layout_marginTop="11dp"
@@ -148,14 +149,15 @@
 
                 <ImageView
                     android:id="@+id/eventImage"
-                    android:layout_width="140dp"
-                    android:layout_height="140dp"
-                    android:layout_marginTop="53dp"
+                    android:layout_width="130dp"
+                    android:layout_height="130dp"
+
                     android:layout_marginEnd="16dp"
                     android:scaleType="centerCrop"
                     android:src="@drawable/d3dc7e93893bd4ad5d73009f763e4a48"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
 
                 <TextView
                     android:id="@+id/eventOrg"
@@ -181,17 +183,18 @@
 
                 <TextView
                     android:id="@+id/eventLoc"
-                    android:layout_width="wrap_content"
+                    android:layout_width="200dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="28dp"
                     android:fontFamily="@font/montserrat"
+                    android:maxLines="2"
                     android:text="Loading"
                     android:textColor="#939393"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/eventCost" />
 
                 <TextView
-                    android:id="@+id/eventDate"
+                    android:id="@+id/eventLocation"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="28dp"
@@ -210,7 +213,7 @@
                     android:text="Loading"
                     android:textColor="#939393"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/eventDate" />
+                    app:layout_constraintTop_toBottomOf="@+id/eventLocation" />
 
                 <Button
                     android:id="@+id/showEventButton"

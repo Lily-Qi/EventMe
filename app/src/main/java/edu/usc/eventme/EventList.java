@@ -1,10 +1,12 @@
 package edu.usc.eventme;
+import java.io.Serializable;
 import java.util.Comparator;
+import java.lang.reflect.Array;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class EventList {
+public class EventList implements Serializable {
     private ArrayList<Event> eventList;
     private String sorting;
     private String keyWord;
