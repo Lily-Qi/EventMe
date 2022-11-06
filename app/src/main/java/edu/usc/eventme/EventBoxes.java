@@ -10,8 +10,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.firebase.auth.FirebaseAuth;
-
 public class EventBoxes extends AppCompatActivity {
     private RecyclerView ry;
     private Button back;
@@ -19,6 +17,7 @@ public class EventBoxes extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.eventboxses_layout);
+
         EventList results = (EventList) getIntent().getSerializableExtra("searchResult");
         ry = findViewById(R.id.recyclerView);
         back = findViewById(R.id.back);
@@ -30,13 +29,12 @@ public class EventBoxes extends AppCompatActivity {
             }
         });
 
+
         MyAdaptor myAdaptor = new MyAdaptor(this, results);
         ry.setAdapter(myAdaptor);
         LinearLayoutManager llm = new LinearLayoutManager(this);
         llm.setOrientation(LinearLayoutManager.VERTICAL);
         ry.setLayoutManager(llm);
-
-
     }
 
     private void showMessage(String message) {
