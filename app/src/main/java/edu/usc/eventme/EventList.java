@@ -13,7 +13,7 @@ public class EventList {
         eventList=new ArrayList<Event>();
     };
 
-    public List<Event> getEventList() {
+    public ArrayList<Event> getEventList() {
         return eventList;
     }
     public void formList(String sort, String key){
@@ -32,12 +32,18 @@ public class EventList {
     }
 
     public void removeEvent(Event e){
-        eventList.remove(e);
+        for (int i = 0; i < eventList.size(); i++) {
+            if (eventList.get(i).getId().equals(e.getId())) {
+                eventList.remove(eventList.get(i));
+                return;
+            }
+        }
+
     }
 
     public Event getEvent(String n){
         for(Event e:eventList){
-            if(e.getID().equals(n)){
+            if(e.getId().equals(n)){
                 return e;
             }
         }

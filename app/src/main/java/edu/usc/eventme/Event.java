@@ -4,7 +4,7 @@ import java.util.List;
 public class Event {
 
     private String location;
-    private String ID;
+    private String id;
     private String eventTitle;
     private String category;
     private String endDate;
@@ -22,8 +22,8 @@ public class Event {
 
     }
 
-    public Event(String ID,String eventTitle, String category, String endDate, String startDate, String endTime, String startTime, int numUser, String description, String cost, Boolean parking, String sponsoringOrganization, String photoURL, String location) {
-        this.ID = ID;
+    public Event(String id,String eventTitle, String category, String endDate, String startDate, String endTime, String startTime, int numUser, String description, String cost, Boolean parking, String sponsoringOrganization, String photoURL, String location) {
+        this.id = id;
         this.eventTitle = eventTitle;
         this.category = category;
         this.endDate = endDate;
@@ -39,8 +39,8 @@ public class Event {
         this.location = location;
     }
 
-    public String getID() {
-        return ID;
+    public String getId() {
+        return id;
     }
 
     public String getCategory() {

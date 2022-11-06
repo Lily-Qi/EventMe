@@ -1,5 +1,6 @@
 package edu.usc.eventme;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -28,14 +29,24 @@ public class LoginActivity extends AppCompatActivity {
         userEmail = findViewById(R.id.editTextTextEmailAddress);
         userPassword = findViewById(R.id.editTextTextPassword);
         mAuth = FirebaseAuth.getInstance();
+        if (mAuth.getCurrentUser() != null) {
+            mAuth.signOut();
+        }
+        OnBackPressedCallback callback = new OnBackPressedCallback(true /* enabled by default */) {
+            @Override
+            public void handleOnBackPressed() {
+                return;
+            }
+        };
+        getOnBackPressedDispatcher().addCallback(this, callback);
+
     }
 
     @Override
     public void onResume() {
         super.onResume();
         // Check if user is signed in (non-null) and update UI accordingly.
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-        if (currentUser != null) {
+        if (mAuth.getCurrentUser() != null) {
             mAuth.signOut();
         }
     }

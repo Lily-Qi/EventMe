@@ -2,6 +2,9 @@ package edu.usc.eventme;
 
 import android.net.Uri;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class User {
     private String userName;
     private String userEmail;
@@ -16,7 +19,7 @@ public class User {
         this.userEmail = userEmail;
         this.userName = userName;
         this.userPhoto = userPhoto;
-        userEventList = null;
+        userEventList = new EventList();
     }
 
     public String getUserName() {
@@ -37,5 +40,34 @@ public class User {
 
     public EventList getUserEventList() {
         return userEventList;
+    }
+
+    //TODO check conflict time
+    public boolean checkConflict(Event event) {
+        String date = event.getEndDate();
+        String startTime = event.getStartTime();
+        String endTime = event.getEndTime();
+
+        return false;
+    }
+
+    public boolean eventExist(String eventID) {
+        ArrayList<Event> currList = userEventList.getEventList();
+        for (int i = 0; i < currList.size(); i++) {
+            if (eventID.equals(currList.get(i).getId())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean registerEvent(Event event) {
+        userEventList.addEvent(event);
+        return true;
+    }
+
+    public boolean removeEvent(Event event) {
+        userEventList.removeEvent(event);
+        return true;
     }
 }
