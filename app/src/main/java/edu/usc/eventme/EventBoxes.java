@@ -3,6 +3,9 @@ package edu.usc.eventme;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -13,6 +16,8 @@ import androidx.recyclerview.widget.RecyclerView;
 public class EventBoxes extends AppCompatActivity {
     private RecyclerView ry;
     private Button back;
+    String[] sortBy;
+    AutoCompleteTextView autoView;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,6 +34,20 @@ public class EventBoxes extends AppCompatActivity {
             }
         });
 
+        sortBy = getResources().getStringArray(R.array.sortBy);
+        autoView = findViewById(R.id.autoCompleteTextView);
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter(getApplicationContext(),R.layout.dropdown_item,sortBy);
+        autoView.setAdapter(arrayAdapter);
+        autoView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Intent refresh = new Intent(getApplication(),EventBoxes.class);
+                results.sort(sortBy[i]);
+                refresh.putExtra("searchResult",results);
+                startActivity(refresh);
+                finish();
+            }
+        });
 
         MyAdaptor myAdaptor = new MyAdaptor(this, results);
         ry.setAdapter(myAdaptor);

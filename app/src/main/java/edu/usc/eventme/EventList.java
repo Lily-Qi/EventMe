@@ -30,7 +30,7 @@ public class EventList implements Serializable {
             case "cost":
                 Collections.sort(eventList, new sortByCost());
             case "distance":
-                //Collections.sort(eventList, new sortByDistance());
+                Collections.sort(eventList, new sortByDistance());
         }
     }
 
@@ -112,5 +112,7 @@ public class EventList implements Serializable {
             }
         }
     }
+
+    class
 }
 
