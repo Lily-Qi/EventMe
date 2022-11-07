@@ -292,7 +292,7 @@ public class ExploreFragment extends Fragment {
                         } else {
                             showMessage("No Event"+ task.getException().getMessage());
                         }
-                        showMessage(String.valueOf(results.getEventList().size()));
+                        //showMessage(String.valueOf(results.getEventList().size()));
                         EventList searchRe = new EventList();
                         for(Event e:results.getEventList()){
                             String name = e.getEventTitle();
