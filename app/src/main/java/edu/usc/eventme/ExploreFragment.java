@@ -160,7 +160,7 @@ public class ExploreFragment extends Fragment {
                 String regex = "^[0-9]{4}-(1[0-2]|0[1-9])-(3[01]|[12][0-9]|0[1-9])$";
                 Pattern pattern = Pattern.compile(regex);
                 Matcher matcher = pattern.matcher(startDate);
-                Matcher matcher2 = pattern.matcher(startDate);
+                Matcher matcher2 = pattern.matcher(endDate);
                 boolean isMatch = matcher.matches()&matcher2.matches();
                 if(isMatch){
                     int check = startDate.compareTo(endDate) ;
