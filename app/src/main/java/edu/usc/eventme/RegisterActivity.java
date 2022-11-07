@@ -183,6 +183,7 @@ public class RegisterActivity extends AppCompatActivity {
                                 Log.w(TAG, "Error writing document", e);
                                 registerProgress.setVisibility(View.GONE);
                                 registerButton.setEnabled(true);
+
                             }
                         });
 

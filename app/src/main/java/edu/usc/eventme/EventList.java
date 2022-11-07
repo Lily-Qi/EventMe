@@ -65,7 +65,6 @@ public class EventList implements Serializable {
     public double getCurrentlon() {
         return currentlon;
     }
-
     public void addEvent(Event e){
         eventList.add(e);
     }
@@ -154,4 +153,3 @@ public class EventList implements Serializable {
 
 
 }
-
