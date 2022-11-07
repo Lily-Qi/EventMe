@@ -64,7 +64,7 @@ public class BottomsheetFragment extends BottomSheetDialogFragment {
                             System.out.println("succeed!!!!!\n");
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 Event event = document.toObject(Event.class);
-                                if(event.getID().equals(currentid)){
+                                if(event.getId().equals(currentid)){
                                     currentevent=event;
                                     bi.currentevent.setOnClickListener(new View.OnClickListener()
                                     {

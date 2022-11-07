@@ -3,8 +3,8 @@
     <string name="guestText"><u>Continue as a guest >></u></string>
     <string name="backicon">\u21e6</string>
     <string-array name="sortBy">
-        <item>Cost</item>
-        <item>Distance</item>
-        <item>Date</item>
-    <item>Alphabet</item> </string-array>
+        <item>cost</item>
+        <item>distance</item>
+        <item>date</item>
+    <item>alphabet</item> </string-array>
 </resources>

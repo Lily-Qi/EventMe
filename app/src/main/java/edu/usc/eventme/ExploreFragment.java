@@ -310,8 +310,8 @@ public class ExploreFragment extends Fragment {
 
     }
 
-    private void searchByKeyword(String keyword){
-    }
+//    private void searchByKeyword(String keyword){
+//    }
 
 
 
