@@ -243,7 +243,7 @@ public class ProfileFragment extends Fragment {
             eventOrg.setText(event.getSponsoringOrganization());
             eventLoc.setText(event.getLocation());
             eventDate.setText(event.getStartDate() + " to " + event.getEndDate());
-            eventTime.setText(event.getStartDate()+" to "+event.getEndTime());
+            eventTime.setText(event.getStartTime()+" to "+event.getEndTime());
             eventCost.setText(event.getCost());
             Picasso.get().load(event.getPhotoURL()).into(eventImage);
         }

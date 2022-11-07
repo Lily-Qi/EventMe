@@ -69,14 +69,23 @@ public class EventRegisterActivity extends AppCompatActivity {
         backButton = findViewById(R.id.backButton);
         conflictMessage.setVisibility(View.GONE);
 
-        getUser();
+        if (currentUser == null) {
+            updateUI();
+        } else {
+            getUser();
+        }
+
         //getEvent(eventID);
     }
 
     @Override
     protected void onRestart() {
         super.onRestart();
-        getUser();
+        if (currentUser == null) {
+            updateUI();
+        } else {
+            getUser();
+        }
         //getEvent(eventID);
     }
 
@@ -132,19 +141,6 @@ public class EventRegisterActivity extends AppCompatActivity {
                         updateUI();
                     }
                 }
-//                @Override
-//                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-//                    if (task.isSuccessful()) {
-//                        DocumentSnapshot document = task.getResult();
-//                        if (document.exists()) {
-//                            user = document.toObject(User.class);
-//                        } else {
-//                            Log.i("Activity", "not ready");
-//                        }
-//                    } else {
-//                        showMessage(task.getException().getMessage());
-//                    }
-//                }
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception e) {
@@ -170,7 +166,6 @@ public class EventRegisterActivity extends AppCompatActivity {
         time.setText(event.getStartTime()+" to "+event.getEndTime());
         numRegistered.setText(event.getNumUser()+" People Registered");
         eventDescription.setText(event.getDescription());
-        Picasso.get().load(event.getPhotoURL()).fit().centerCrop().into(eventPhoto);
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -182,7 +177,7 @@ public class EventRegisterActivity extends AppCompatActivity {
         } else {
             eventParking.setText("No parking lot available near the Event. Please take public transportation.");
         }
-
+        Picasso.get().load(event.getPhotoURL()).fit().into(eventPhoto);
         if (user != null) {
             if (user.eventExist(eventID)) {
                 updateToUnregister();

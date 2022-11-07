@@ -52,9 +52,8 @@ public class MyAdaptor extends RecyclerView.Adapter<MyAdaptor.ViewHolder>{
             @Override
             public void onClick(View view) {
                 System.out.println("click!!!!!!!!!!");
-                Intent intent = new Intent(view.getContext(), BottomsheetDetails.class);
-                intent.putExtra("Events",result);
-                intent.putExtra("position",holder.getAdapterPosition());
+                Intent intent = new Intent(view.getContext(), EventRegisterActivity.class);
+                intent.putExtra("Event", result.getEventList().get(holder.getAdapterPosition()));
                 view.getContext().startActivity(intent);
             }
         });

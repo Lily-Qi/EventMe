@@ -196,13 +196,13 @@ public class MapsFragment extends Fragment {
 //                    getCurrentLocation();
                     }
                 String address1="3551 Trousdale Pkwy, Los Angeles, CA 90089";
-                if(permission) {
+   //             if(permission) {
                     //LatLng latLng1 = getLocationFromAddress(getContext(), address1, false, null);
-                    LatLng latLng1 =new LatLng(34.0200135, -118.2898305);
+                    //LatLng latLng1 =new LatLng(34.0200135, -118.2898305);
                     //mMap.addMarker(new MarkerOptions().position(latLng1).title("Your position"));
-                    CameraUpdate cu = CameraUpdateFactory.newLatLngZoom(latLng1, 15);
-                    mMap.moveCamera(cu);
-                    mMap.setMyLocationEnabled(true);
+//                    CameraUpdate cu = CameraUpdateFactory.newLatLngZoom(latLng1, 15);
+//                    mMap.moveCamera(cu);
+//                    mMap.setMyLocationEnabled(true);
                     //add marker for all locations
                     FirebaseFirestore db = FirebaseFirestore.getInstance();
                     EventList results = new EventList();
@@ -229,7 +229,7 @@ public class MapsFragment extends Fragment {
 
                                 }
                             });
-                }
+//                }
 
 //                LatLng currentlatlng=new LatLng(currentlocation.getLatitude(), currentlocation.getLongitude());
 //                googleMap.addMarker(new MarkerOptions().position(currentlatlng).title("Your position"));
@@ -316,9 +316,9 @@ public class MapsFragment extends Fragment {
                                         LatLng currentlatlng=new LatLng(currentlocation.getLatitude(), currentlocation.getLongitude());
 
 //                                        mMap.addMarker(new MarkerOptions().position(currentlatlng).title("Your position"));
-//                                        CameraUpdate cu = CameraUpdateFactory.newLatLngZoom(currentlatlng, 12);;
-//                                        mMap.moveCamera(cu);
-//                                        mMap.setMyLocationEnabled(true);
+                                        CameraUpdate cu = CameraUpdateFactory.newLatLngZoom(currentlatlng, 15);;
+                                        mMap.moveCamera(cu);
+                                        mMap.setMyLocationEnabled(true);
 
 //                                        mMap.setOnMyLocationButtonClickListener(this);
 //                                        mMap.setOnMyLocationClickListener(this);

@@ -72,11 +72,8 @@ public class BottomsheetFragment extends BottomSheetDialogFragment {
                                         public void onClick(View v)
                                         {
                                             System.out.println("click!!!!!!!!!!");
-                                            Intent intent = new Intent(v.getContext(), BottomsheetDetails.class);
-                                            EventList result=new EventList();
-                                            result.addEvent(currentevent);
-                                            intent.putExtra("Events",result);
-                                            intent.putExtra("position",0);
+                                            Intent intent = new Intent(v.getContext(), EventRegisterActivity.class);
+                                            intent.putExtra("Event",currentevent);
                                             v.getContext().startActivity(intent);
                                         }
                                     });
@@ -192,7 +189,7 @@ public class BottomsheetFragment extends BottomSheetDialogFragment {
     public void onStart() {
         super.onStart();
 
-        bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+        //bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
     }
 
     private void hideAppBar(View view) {

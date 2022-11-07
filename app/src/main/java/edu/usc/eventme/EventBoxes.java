@@ -15,6 +15,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -44,6 +45,7 @@ public class EventBoxes extends AppCompatActivity {
     private double longitude=-1.0;
     private FusedLocationProviderClient fusedLocationClient;
     Context currentcontext;
+
 
     @SuppressLint("MissingPermission")
     protected void onCreate(Bundle savedInstanceState) {
