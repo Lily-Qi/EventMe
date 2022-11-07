@@ -192,7 +192,7 @@ public class BottomsheetFragment extends BottomSheetDialogFragment {
     public void onStart() {
         super.onStart();
 
-        bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+        //bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
     }
 
     private void hideAppBar(View view) {
