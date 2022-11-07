@@ -29,12 +29,19 @@ public class EventList implements Serializable {
         switch (sort) {
             case "cost":
                 Collections.sort(eventList, new sortByCost());
+                break;
             case "distance":
                 Collections.sort(eventList, new sortByDistance());
+                break;
             case "date":
                 Collections.sort(eventList, new sortByDate());
+                break;
             case "alphabet":
                 Collections.sort(eventList, new sortByAlpha());
+                break;
+            default:
+                Collections.sort(eventList, new sortByCost());
+                break;
         }
     }
 

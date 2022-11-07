@@ -36,7 +36,8 @@ import com.google.android.gms.tasks.Task;
 
 public class EventBoxes extends AppCompatActivity {
     private RecyclerView ry;
-    private Button back;
+    //private Button back;
+    private ImageView back;
     String[] sortBy;
     AutoCompleteTextView autoView;
     private FusedLocationProviderClient client;
@@ -96,7 +97,7 @@ public class EventBoxes extends AppCompatActivity {
                                 results.setCurrentlon(longitude);
 
                                 ry = findViewById(R.id.recyclerView);
-                                back = findViewById(R.id.back);
+                                back = findViewById(R.id.backButton);
                                 Intent toMain = new Intent(currentcontext, MainActivity.class);
                                 back.setOnClickListener(new View.OnClickListener() {
                                     @Override
@@ -149,7 +150,7 @@ public class EventBoxes extends AppCompatActivity {
             results.setCurrentlon(longitude);
 
             ry = findViewById(R.id.recyclerView);
-            back = findViewById(R.id.back);
+            back = findViewById(R.id.backButton);
             Intent toMain = new Intent( this,MainActivity.class);
             back.setOnClickListener(new View.OnClickListener() {
                 @Override
