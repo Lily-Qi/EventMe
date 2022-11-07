@@ -1,6 +1,8 @@
 package edu.usc.eventme;
 
+
 import android.annotation.SuppressLint;
+
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -30,7 +32,6 @@ public class MyAdaptor extends RecyclerView.Adapter<MyAdaptor.ViewHolder>{
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(R.layout.adapter_row, parent, false);
-        ArrayList<Event> list = result.getList();
         return new ViewHolder(view);
     }
 
@@ -40,6 +41,7 @@ public class MyAdaptor extends RecyclerView.Adapter<MyAdaptor.ViewHolder>{
         holder.eventName.setText(list.get(position).getEventTitle());
         holder.distance.setText(String.format("%.2f", list.get(position).findDis(result.getCurrentlat(), result.getCurrentlon()))+"miles");
         //System.out.println(list.get(position).getEventTitle()+"!!!!!!!!!!!!");
+
         holder.eventLocation.setText(list.get(position).getLocation());
         holder.eventDate.setText(list.get(position).getStartDate()+" to "+list.get(position).getEndDate());
         holder.eventTime.setText(list.get(position).getStartTime()+" to "+list.get(position).getEndTime());
@@ -68,6 +70,7 @@ public class MyAdaptor extends RecyclerView.Adapter<MyAdaptor.ViewHolder>{
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         TextView eventName, eventLocation, eventDate, eventTime, eventCost, sponcer, distance;
+
         ImageView eventImage;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -79,11 +82,12 @@ public class MyAdaptor extends RecyclerView.Adapter<MyAdaptor.ViewHolder>{
             sponcer = itemView.findViewById(R.id.sponceringOrganization);
             eventImage = itemView.findViewById(R.id.eventImage);
             distance = itemView.findViewById(R.id.distance);
+            itemView.setOnClickListener(this);
+
         }
 
         @Override
         public void onClick(View view) {
-            System.out.println("click!!!!!!!!!!");
             Intent intent = new Intent(view.getContext(), Details.class);
             intent.putExtra("Events",result);
             intent.putExtra("position",getAdapterPosition());

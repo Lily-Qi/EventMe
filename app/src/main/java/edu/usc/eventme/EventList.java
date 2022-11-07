@@ -75,6 +75,9 @@ public class EventList implements Serializable {
         return eventList;
     }
 
+}
+
+
     class sortByCost implements Comparator<Event>{
         public int compare(Event a, Event b){
             if(a.getCost().length()>b.getCost().length()){
