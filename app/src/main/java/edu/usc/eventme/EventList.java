@@ -30,7 +30,11 @@ public class EventList implements Serializable {
             case "cost":
                 Collections.sort(eventList, new sortByCost());
             case "distance":
-                //Collections.sort(eventList, new sortByDistance());
+                Collections.sort(eventList, new sortByDistance());
+            case "date":
+                Collections.sort(eventList, new sortByDate());
+            case "alphabet":
+                Collections.sort(eventList, new sortByAlpha());
         }
     }
 
@@ -112,5 +116,35 @@ public class EventList implements Serializable {
             }
         }
     }
+
+    class sortByDate implements Comparator<Event>{
+        public int compare(Event a, Event b){
+            if(a.getStartDate().compareTo(b.getStartDate())>0){
+                return 1;
+            }
+            else if(a.getStartDate().compareTo(b.getStartDate())<0){
+                return -1;
+            }
+            else{
+                return 0;
+            }
+        }
+    }
+
+    class sortByAlpha implements Comparator<Event>{
+        public int compare(Event a, Event b){
+            if(a.getEventTitle().compareTo(b.getEventTitle())>0){
+                return 1;
+            }
+            else if(a.getEventTitle().compareTo(b.getEventTitle())<0){
+                return -1;
+            }
+            else{
+                return 0;
+            }
+        }
+    }
+
+
 }
 

@@ -311,7 +311,6 @@ public class ExploreFragment extends Fragment {
     }
 
 
-
 //    private void createEvents(){
 //        FirebaseFirestore db = FirebaseFirestore.getInstance();
 //        String eventTitle = "Home Coming Concert";
