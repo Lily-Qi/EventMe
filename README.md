@@ -23,3 +23,4 @@ If your emulator is not Pixel 2 with API 24, please follow the following steps. 
 4. Close the emulator by clicking the "x" on the emulator tab
 5. Click “Run ‘app’” to restart the emulator
 6. EventMe is running
+7. Please allow EventME to access this device's location when there is a pop-up window asks for it, in order to use all functionalities of the App. 
