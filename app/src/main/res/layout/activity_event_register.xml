@@ -5,7 +5,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_layout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true">
+
+    <ImageView
+        android:id="@+id/backButton"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:translationZ="12dp"
+        app:srcCompat="@drawable/ic_chevron_left_solid"
+        android:clickable="true"
+        app:tint="@color/white" />
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
@@ -36,7 +48,7 @@
 
                 <ImageView
                     android:id="@+id/eventPhoto"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="240dp"
                     android:minHeight="100dp"
                     android:scaleType="centerCrop"
@@ -76,14 +88,15 @@
                         android:layout_marginStart="20dp"
                         android:layout_marginTop="12dp"
                         android:fontFamily="@font/montserrat_black"
+                        android:maxLines="2"
                         android:text="Event Name"
                         android:textColor="@color/black"
-                        android:textSize="24sp"
+                        android:textSize="25sp"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <TextView
-                        android:id="@+id/textView9"
+                        android:id="@+id/numRegistered"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="7dp"
@@ -92,46 +105,58 @@
                         android:fontFamily="@font/montserrat"
                         android:text="15 People Registered"
                         android:textColor="@color/black"
-                        android:textSize="13sp"
+                        android:textSize="15sp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toEndOf="@+id/imageView3"
-                        app:layout_constraintTop_toBottomOf="@+id/textView8" />
+                        app:layout_constraintTop_toBottomOf="@+id/time" />
 
                     <TextView
-                        android:id="@+id/textView6"
+                        android:id="@+id/costNType"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="20dp"
                         android:fontFamily="@font/montserrat_medium"
                         android:text="$COST·Type"
                         android:textColor="@color/black"
-                        android:textSize="13sp"
+                        android:textSize="15sp"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/textView4" />
+                        app:layout_constraintTop_toBottomOf="@+id/eventOrgnization" />
 
                     <TextView
-                        android:id="@+id/textView7"
+                        android:id="@+id/location"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="20dp"
                         android:fontFamily="@font/montserrat"
                         android:text="Location"
                         android:textColor="@color/black"
-                        android:textSize="13sp"
+                        android:textSize="15sp"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/textView6" />
+                        app:layout_constraintTop_toBottomOf="@+id/costNType" />
 
                     <TextView
-                        android:id="@+id/textView8"
+                        android:id="@+id/date"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="20dp"
                         android:fontFamily="@font/montserrat"
-                        android:text="MM/DD/YYYY HH:MM-HH:MM"
+                        android:text="MM/DD/YYYY-MM/DD/YYYY"
                         android:textColor="@color/black"
-                        android:textSize="13sp"
+                        android:textSize="15sp"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/textView7" />
+                        app:layout_constraintTop_toBottomOf="@+id/location" />
+
+                    <TextView
+                        android:id="@+id/time"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="20dp"
+                        android:fontFamily="@font/montserrat"
+                        android:text="HH:MM-HH:MM"
+                        android:textColor="@color/black"
+                        android:textSize="15sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/date" />
 
                     <ImageView
                         android:id="@+id/imageView3"
@@ -140,20 +165,22 @@
                         android:layout_marginStart="20dp"
                         android:layout_marginTop="7dp"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/textView8"
+                        app:layout_constraintTop_toBottomOf="@+id/time"
                         app:srcCompat="@drawable/ic_circle_check_solid"
                         app:tint="@color/yellow_theme" />
 
                     <TextView
-                        android:id="@+id/textView4"
+                        android:id="@+id/eventOrgnization"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="20dp"
                         android:fontFamily="@font/montserrat_medium"
                         android:text="Organization"
                         android:textColor="@color/black"
+                        android:textSize="16sp"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/eventName" />
+
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -176,7 +203,7 @@
                         android:fontFamily="@font/montserrat_medium"
                         android:text="Description"
                         android:textColor="@color/black"
-                        android:textSize="16sp"
+                        android:textSize="18sp"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
@@ -187,11 +214,14 @@
                         android:layout_marginStart="20dp"
                         android:layout_marginEnd="20dp"
                         android:layout_marginBottom="20dp"
+                        android:ellipsize="end"
                         android:fontFamily="@font/montserrat"
-                        android:maxLines="20"
-                        android:text="Description"
+                        android:maxLines="40"
+                        android:scrollHorizontally="false"
+                        android:singleLine="false"
+                        android:text="DescriptionnnnnnnnnnnnnnnnDescriptionnnnnnnnnnnnnnnnDescriptionnnnnnnnnnnnnnnn"
                         android:textColor="#3f3f3f"
-                        android:textSize="13sp"
+                        android:textSize="15sp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -215,7 +245,7 @@
                         android:fontFamily="@font/montserrat_medium"
                         android:text="Parking"
                         android:textColor="@color/black"
-                        android:textSize="16sp"
+                        android:textSize="18sp"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
@@ -226,9 +256,10 @@
                         android:layout_marginStart="20dp"
                         android:layout_marginBottom="20dp"
                         android:fontFamily="@font/montserrat"
+                        android:maxLines="4"
                         android:text="Parking"
                         android:textColor="#3f3f3f"
-                        android:textSize="13sp"
+                        android:textSize="15sp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/textView3" />
@@ -246,8 +277,19 @@
         android:layout_alignParentBottom="true"
         android:backgroundTint="@color/white">
 
+        <ProgressBar
+            android:id="@+id/eventProgressBar"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            android:elevation="12dp"/>
+
         <Button
-            android:id="@+id/button"
+            android:id="@+id/eventRegisterButton"
             android:layout_width="330dp"
             android:layout_height="45dp"
             android:layout_marginTop="20dp"
@@ -267,11 +309,13 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="3dp"
             android:fontFamily="@font/montserrat"
-            android:text=""
+            android:text="There might be conflicts with registered events."
             android:textColor="@color/red_theme"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/button" />
+            app:layout_constraintTop_toBottomOf="@+id/eventRegisterButton" />
+
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </RelativeLayout>
