@@ -236,6 +236,7 @@ public class ProfileFragment extends Fragment {
             eventImage.setVisibility(View.GONE);
             eventLoc.setVisibility(View.GONE);
             eventOrg.setVisibility(View.GONE);
+            showEventButton.setVisibility(View.GONE);
         } else {
             Event event = user.getUserEventList().getEventList().get(0);
             emptyListMessage.setVisibility(View.GONE);
