@@ -142,7 +142,7 @@ public class EventList implements Serializable {
             if(a.getEventTitle().compareTo(b.getEventTitle())>0){
                 return 1;
             }
-            else if(a.getEventTitle().compareTo(b.getEventTitle())<0){
+            else if(a.getEventTitle().compareTo(b.getEventTitle())<10){
                 return -1;
             }
             else{

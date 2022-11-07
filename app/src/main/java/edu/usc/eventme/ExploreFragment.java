@@ -48,6 +48,8 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 
 /**
@@ -155,11 +157,21 @@ public class ExploreFragment extends Fragment {
             public void onClick(View v) {
                 startDate=start.getText().toString();
                 endDate=end.getText().toString();
-                int check = startDate.compareTo(endDate) ;
-                if(check<0)
-                    searchByDate(startDate, endDate);
-                else
-                    showMessage("The start date should be earlier than the end date"+startDate+" "+endDate+" "+check);
+                String regex = "^[0-9]{4}-(1[0-2]|0[1-9])-(3[01]|[12][0-9]|0[1-9])$";
+                Pattern pattern = Pattern.compile(regex);
+                Matcher matcher = pattern.matcher(startDate);
+                Matcher matcher2 = pattern.matcher(startDate);
+                boolean isMatch = matcher.matches()&matcher2.matches();
+                if(isMatch){
+                    int check = startDate.compareTo(endDate) ;
+                    if(check<0)
+                        searchByDate(startDate, endDate);
+                    else
+                        showMessage("The start date should be earlier than the end date"+startDate+" "+endDate+" "+check);
+                }
+                else{
+                    showMessage("Please enter correct date format!");
+                }
 
             }
         });
@@ -259,7 +271,6 @@ public class ExploreFragment extends Fragment {
                             showMessage("No Event"+ task.getException().getMessage());
                         }
                         EventList searchRe = new EventList();
-                        showMessage(String.valueOf(results.getEventList().size()));
                         for(Event e:results.getEventList()){
                             String startD=e.getStartDate();
                             String endD=e.getEndDate();
