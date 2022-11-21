@@ -115,13 +115,5 @@ public class ExploreFragmetnAndroidTestEspresso {
 
         onView(withText("Food truck for snack")).check(matches(isDisplayed()));
         onView(withId(R.id.recyclerView)).check(new RecyclerViewItemCountAssertion(1));
-<<<<<<< Updated upstream
-        //onView(withText("Chloë Bass: Wayfinding")).check(doesNotExist());
-=======
-//        onView(ViewMatchers.withId(R.id.recyclerView))
-//                .perform(RecyclerViewActions.actionOnItemAtPosition(1,
-//                        click()));
->>>>>>> Stashed changes
-        //onView(withText("Food truck for snack")).perform(click());
     }
 }
