@@ -78,7 +78,7 @@ public class EventUnregisterUserTest {
     }
 
     @Test
-    public void Test_UserEventRegister() throws InterruptedException {
+    public void Test_UserEventUnregister() throws InterruptedException {
         AtomicInteger expected = new AtomicInteger();
         activityScenarioRule.getScenario().onActivity(activity -> {
             TextView temp = activity.findViewById(R.id.numRegistered);
