@@ -52,7 +52,24 @@ public class andyUnit {
     }
 
     @Test
-    public void test_remove
+    public void test_removeEvent(){
+        EventList alist= new EventList();
+        Event e1 = new Event("1", "e", "category", "2022-12-27", "2022-12-20", "18:00", "17:00",
+                2, "description", "cost", true, "sponsor", "url", "loc",1,1);
+        Event e2 = new Event("2", "e2", "category2", "2022-12-27", "2022-12-20", "18:00", "17:00",
+                2, "description2", "cost2", true, "sponsor2", "url2", "loc2",1,1);
+        Event e3 = new Event("3", "e3", "category", "2022-12-27", "2022-12-20", "18:00", "17:00",
+                2, "description", "cost", true, "sponsor", "url", "loc",1,1);
+        assertEquals("Eventlist is empty before adding the event", 0, alist.getEventList().size());
+        alist.addEvent(e1);
+        alist.addEvent(e2);
+        alist.addEvent(e3);
+        assertEquals("Eventlist has three events after adding three events", 3, alist.getEventList().size());
+        assertEquals("Second event in the list is e2 before removing", "e2", alist.getEventList().get(1).getEventTitle());
+        alist.removeEvent(e2);
+        assertEquals("Second event in the list is e3 after removing e2", "e3", alist.getEventList().get(1).getEventTitle());
+
+    }
 
 
 }
