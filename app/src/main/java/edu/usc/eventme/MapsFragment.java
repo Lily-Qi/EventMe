@@ -218,7 +218,12 @@ public class MapsFragment extends Fragment {
                                             //LatLng temploc = getLocationFromAddress(getContext(), event.getLocation(),true, event);
                                             LatLng temploc = new LatLng(event.getLatitude(), event.getLongitude());
                                             Marker marker = mMap.addMarker(new MarkerOptions().position(temploc));
+<<<<<<< Updated upstream
                                             markermap.put(marker.getId(), event.getID());
+=======
+                                            marker.setTitle(event.getEventTitle());
+                                            markermap.put(marker.getId(), event.getId());
+>>>>>>> Stashed changes
                                         }
                                         //results.sort("price");
                                     }
