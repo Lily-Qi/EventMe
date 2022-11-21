@@ -42,6 +42,7 @@
     </androidx.appcompat.widget.Toolbar>
 
     <ScrollView
+        android:id = "@+id/userScrollView"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:contentDescription="@string/app_name"
@@ -79,7 +80,7 @@
                     android:layout_marginStart="28dp"
                     android:layout_marginTop="44dp"
                     android:fontFamily="@font/montserrat_bold"
-                    android:text="User Name"
+                    android:text="Loading"
                     android:textColor="@color/black"
                     android:textSize="24sp"
                     app:layout_constraintStart_toEndOf="@+id/userPhoto"
@@ -92,7 +93,7 @@
                     android:layout_marginStart="28dp"
                     android:layout_marginTop="6dp"
                     android:fontFamily="@font/montserrat"
-                    android:text="useremail@gmail.com"
+                    android:text="loading"
                     android:textColor="#939393"
                     app:layout_constraintStart_toEndOf="@+id/userPhoto"
                     app:layout_constraintTop_toBottomOf="@+id/userName" />
@@ -104,7 +105,7 @@
                     android:layout_marginStart="28dp"
                     android:layout_marginTop="14dp"
                     android:fontFamily="@font/montserrat_semibold"
-                    android:text="MM/DD/YYYY"
+                    android:text="loading"
                     android:textColor="#939393"
                     app:layout_constraintStart_toEndOf="@+id/userPhoto"
                     app:layout_constraintTop_toBottomOf="@+id/userEmail" />
@@ -118,7 +119,7 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/eventView"
                 android:layout_width="match_parent"
-                android:layout_height="260dp">
+                android:layout_height="wrap_content">
 
                 <TextView
                     android:id="@+id/textView5"
@@ -135,12 +136,13 @@
 
                 <TextView
                     android:id="@+id/eventName"
-                    android:layout_width="wrap_content"
+                    android:layout_width="200dp"
+                    android:maxLines="2"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="28dp"
                     android:layout_marginTop="11dp"
                     android:fontFamily="@font/montserrat_black"
-                    android:text="Event Name"
+                    android:text="Loading"
                     android:textColor="@color/black"
                     android:textSize="20sp"
                     app:layout_constraintStart_toStartOf="parent"
@@ -148,14 +150,15 @@
 
                 <ImageView
                     android:id="@+id/eventImage"
-                    android:layout_width="140dp"
-                    android:layout_height="140dp"
-                    android:layout_marginTop="53dp"
+                    android:layout_width="130dp"
+                    android:layout_height="130dp"
+
                     android:layout_marginEnd="16dp"
                     android:scaleType="centerCrop"
                     android:src="@drawable/d3dc7e93893bd4ad5d73009f763e4a48"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
 
                 <TextView
                     android:id="@+id/eventOrg"
@@ -163,7 +166,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="28dp"
                     android:fontFamily="@font/montserrat_semibold"
-                    android:text="Orgnization"
+                    android:text="Loading"
                     android:textColor="@color/black"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/eventName" />
@@ -174,29 +177,30 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="28dp"
                     android:fontFamily="@font/montserrat_semibold"
-                    android:text="$COST"
+                    android:text="Loading"
                     android:textColor="#939393"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/eventOrg" />
 
                 <TextView
                     android:id="@+id/eventLoc"
-                    android:layout_width="wrap_content"
+                    android:layout_width="200dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="28dp"
                     android:fontFamily="@font/montserrat"
-                    android:text="Location"
+                    android:maxLines="2"
+                    android:text="Loading"
                     android:textColor="#939393"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/eventCost" />
 
                 <TextView
-                    android:id="@+id/eventDate"
+                    android:id="@+id/eventLocation"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="28dp"
                     android:fontFamily="@font/montserrat"
-                    android:text="MM/DD/YYYY-MM/DD/YYYY"
+                    android:text="Loading"
                     android:textColor="#939393"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/eventLoc" />
@@ -207,25 +211,42 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="28dp"
                     android:fontFamily="@font/montserrat"
-                    android:text="HH:MM-HH:MM"
+                    android:text="Loading"
                     android:textColor="#939393"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/eventDate" />
+                    app:layout_constraintTop_toBottomOf="@+id/eventLocation" />
 
                 <Button
                     android:id="@+id/showEventButton"
                     style="@style/Widget.AppCompat.Button.Borderless"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="4dp"
+                    android:layout_marginTop="22dp"
+                    android:layout_marginBottom="10dp"
                     android:fontFamily="@font/montserrat_medium"
                     android:insetTop="0dp"
                     android:insetBottom="0dp"
                     android:text="Show All Registered Events"
                     android:textColor="@color/orange_theme"
-                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent" />
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/eventTime" />
+
+                <TextView
+                    android:id="@+id/emptyListMessage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/montserrat_bold"
+                    android:text="Begin To Register \n Your First Event"
+                    android:textColor="@color/orange_theme"
+                    android:textSize="24sp"
+                    android:layout_marginTop="70dp"
+                    android:layout_marginBottom="70dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <View
@@ -259,5 +280,15 @@
         </LinearLayout>
 
     </ScrollView>
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="300dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

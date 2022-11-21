@@ -196,9 +196,9 @@ public class MapsFragment extends Fragment {
 //                    getCurrentLocation();
                     }
                 String address1="3551 Trousdale Pkwy, Los Angeles, CA 90089";
-                if(permission) {
+   //             if(permission) {
                     //LatLng latLng1 = getLocationFromAddress(getContext(), address1, false, null);
-//                    LatLng latLng1 =new LatLng(34.0200135, -118.2898305);
+
 //                    CameraUpdate cu = CameraUpdateFactory.newLatLngZoom(latLng1, 15);
 //                    mMap.moveCamera(cu);
 //                    mMap.setMyLocationEnabled(true);
@@ -218,12 +218,10 @@ public class MapsFragment extends Fragment {
                                             //LatLng temploc = getLocationFromAddress(getContext(), event.getLocation(),true, event);
                                             LatLng temploc = new LatLng(event.getLatitude(), event.getLongitude());
                                             Marker marker = mMap.addMarker(new MarkerOptions().position(temploc));
-<<<<<<< Updated upstream
-                                            markermap.put(marker.getId(), event.getID());
-=======
+
                                             marker.setTitle(event.getEventTitle());
                                             markermap.put(marker.getId(), event.getId());
->>>>>>> Stashed changes
+
                                         }
                                         //results.sort("price");
                                     }
@@ -233,7 +231,7 @@ public class MapsFragment extends Fragment {
 
                                 }
                             });
-                }
+//                }
 
 //                LatLng currentlatlng=new LatLng(currentlocation.getLatitude(), currentlocation.getLongitude());
 //                googleMap.addMarker(new MarkerOptions().position(currentlatlng).title("Your position"));
@@ -406,7 +404,7 @@ public class MapsFragment extends Fragment {
                             System.out.println("event:"+event.getEventTitle());
                             System.out.println(location.getLatitude());
                             System.out.println(location.getLongitude());
-                            markermap.put(marker.getId(), event.getID());
+                            markermap.put(marker.getId(), event.getId());
                             marker.showInfoWindow();
                         }
                     } catch (IOException ex) {

@@ -1,7 +1,9 @@
 package edu.usc.eventme;
 import java.io.Serializable;
 import java.lang.reflect.Array;
+
 import java.util.Comparator;
+import java.lang.reflect.Array;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -27,8 +29,19 @@ public class EventList implements Serializable {
         switch (sort) {
             case "cost":
                 Collections.sort(eventList, new sortByCost());
+                break;
             case "distance":
-                //Collections.sort(eventList, new sortByDistance());
+                Collections.sort(eventList, new sortByDistance());
+                break;
+            case "date":
+                Collections.sort(eventList, new sortByDate());
+                break;
+            case "alphabet":
+                Collections.sort(eventList, new sortByAlpha());
+                break;
+            default:
+                Collections.sort(eventList, new sortByCost());
+                break;
         }
     }
 
@@ -52,18 +65,23 @@ public class EventList implements Serializable {
     public double getCurrentlon() {
         return currentlon;
     }
-
     public void addEvent(Event e){
         eventList.add(e);
     }
 
     public void removeEvent(Event e){
-        eventList.remove(e);
+        for (int i = 0; i < eventList.size(); i++) {
+            if (eventList.get(i).getId().equals(e.getId())) {
+                eventList.remove(eventList.get(i));
+                return;
+            }
+        }
+
     }
 
     public Event getEvent(String n){
         for(Event e:eventList){
-            if(e.getID().equals(n)){
+            if(e.getId().equals(n)){
                 return e;
             }
         }
@@ -74,8 +92,6 @@ public class EventList implements Serializable {
     public ArrayList<Event> getList(){
         return eventList;
     }
-
-}
 
 
     class sortByCost implements Comparator<Event>{
@@ -106,4 +122,34 @@ public class EventList implements Serializable {
             }
         }
     }
+
+    class sortByDate implements Comparator<Event>{
+        public int compare(Event a, Event b){
+            if(a.getStartDate().compareTo(b.getStartDate())>0){
+                return 1;
+            }
+            else if(a.getStartDate().compareTo(b.getStartDate())<0){
+                return -1;
+            }
+            else{
+                return 0;
+            }
+        }
+    }
+
+    class sortByAlpha implements Comparator<Event>{
+        public int compare(Event a, Event b){
+            if(a.getEventTitle().compareTo(b.getEventTitle())>0){
+                return 1;
+            }
+            else if(a.getEventTitle().compareTo(b.getEventTitle())<0){
+                return -1;
+            }
+            else{
+                return 0;
+            }
+        }
+    }
+
+
 }

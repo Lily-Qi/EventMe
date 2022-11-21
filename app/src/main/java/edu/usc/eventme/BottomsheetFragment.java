@@ -64,7 +64,7 @@ public class BottomsheetFragment extends BottomSheetDialogFragment {
                             System.out.println("succeed!!!!!\n");
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 Event event = document.toObject(Event.class);
-                                if(event.getID().equals(currentid)){
+                                if(event.getId().equals(currentid)){
                                     currentevent=event;
                                     bi.currentevent.setOnClickListener(new View.OnClickListener()
                                     {
@@ -72,11 +72,8 @@ public class BottomsheetFragment extends BottomSheetDialogFragment {
                                         public void onClick(View v)
                                         {
                                             System.out.println("click!!!!!!!!!!");
-                                            Intent intent = new Intent(v.getContext(), BottomsheetDetails.class);
-                                            EventList result=new EventList();
-                                            result.addEvent(currentevent);
-                                            intent.putExtra("Events",result);
-                                            intent.putExtra("position",0);
+                                            Intent intent = new Intent(v.getContext(), EventRegisterActivity.class);
+                                            intent.putExtra("Event",currentevent);
                                             v.getContext().startActivity(intent);
                                         }
                                     });
@@ -195,12 +192,12 @@ public class BottomsheetFragment extends BottomSheetDialogFragment {
         //bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
     }
 
-    private void hideAppBar(View view) {
-        ViewGroup.LayoutParams params = view.getLayoutParams();
-        params.height = 0;
-        view.setLayoutParams(params);
-
-    }
+//    private void hideAppBar(View view) {
+//        ViewGroup.LayoutParams params = view.getLayoutParams();
+//        params.height = 0;
+//        view.setLayoutParams(params);
+//
+//    }
 
     private void showView(View view, int size) {
         ViewGroup.LayoutParams params = view.getLayoutParams();
@@ -225,17 +222,17 @@ public class BottomsheetFragment extends BottomSheetDialogFragment {
 //    }
 
 
-    private int getActionBarSize() {
-        final TypedArray array = getContext().getTheme().obtainStyledAttributes(new int[]{android.R.attr.actionBarSize});
-        int size = (int) array.getDimension(0, 0);
-        return size;
-    }
-    public void gotodetail(View view){
-        TextView tv = (TextView) view;
-        System.out.println("click!!!!!!!!!!");
-        Intent intent = new Intent(view.getContext(), Details.class);
-        //intent.putExtra("Events",result);
-        //intent.putExtra("position",getAdapterPosition());
-        view.getContext().startActivity(intent);
-    }
+//    private int getActionBarSize() {
+//        final TypedArray array = getContext().getTheme().obtainStyledAttributes(new int[]{android.R.attr.actionBarSize});
+//        int size = (int) array.getDimension(0, 0);
+//        return size;
+//    }
+//    public void gotodetail(View view){
+//        TextView tv = (TextView) view;
+//        System.out.println("click!!!!!!!!!!");
+//        Intent intent = new Intent(view.getContext(), Details.class);
+//        //intent.putExtra("Events",result);
+//        //intent.putExtra("position",getAdapterPosition());
+//        view.getContext().startActivity(intent);
+//    }
 }

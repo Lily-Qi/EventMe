@@ -9,137 +9,132 @@
         android:id="@+id/cardView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="1dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="1dp"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="0dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        >
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="411dp"
-            android:layout_height="230dp">
+            android:layout_height="wrap_content">
 
             <ImageView
                 android:id="@+id/eventImage"
-                android:layout_width="150dp"
-                android:layout_height="230dp"
+                android:layout_width="130dp"
+                android:layout_height="130dp"
+                android:layout_marginStart="20dp"
+                android:scaleType="centerCrop"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.0"
                 tools:srcCompat="@tools:sample/avatars" />
 
             <TextView
                 android:id="@+id/eventName"
                 android:layout_width="200dp"
-                android:layout_height="30dp"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
-                android:layout_marginBottom="10dp"
-                android:layout_marginTop="10dp"
-                android:fontFamily="@font/montserrat_black"
-                android:text="Title"
-                android:textSize="18sp"
+                android:layout_marginTop="15dp"
+                android:fontFamily="@font/montserrat_bold"
                 android:gravity="left"
-                app:layout_constraintBottom_toTopOf="@+id/eventLocation"
+                android:maxLines="2"
+                android:text="Title"
+                android:textColor="@color/black"
+                android:textSize="18sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/eventImage"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.0" />
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/sponceringOrganization"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:fontFamily="@font/montserrat_semibold"
+                android:gravity="left"
+                android:text="Orgnization"
+                android:textColor="@color/black"
+                android:textSize="15sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/eventName"
+                app:layout_constraintStart_toEndOf="@+id/eventImage" />
 
             <TextView
                 android:id="@+id/eventLocation"
                 android:layout_width="200dp"
-                android:layout_height="30dp"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
-                android:layout_marginBottom="10dp"
-                android:fontFamily="@font/montserrat_black"
-                android:text="Location: "
-                android:textSize="12sp"
+                android:autoSizeMaxTextSize="15sp"
+                android:autoSizeMinTextSize="7sp"
+                android:autoSizeStepGranularity="2sp"
+                android:autoSizeTextType="uniform"
+                android:fontFamily="@font/montserrat_medium"
+                android:maxLines="2"
+                android:text="Location"
+                android:textSize="15sp"
+                app:layout_constraintTop_toBottomOf="@id/eventCost"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/eventImage" />
+
+            <TextView
+                android:id="@+id/distance"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:fontFamily="@font/montserrat_medium"
                 android:gravity="left"
-                app:layout_constraintBottom_toTopOf="@+id/eventTime"
+                android:text="distance"
+                android:textSize="15sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/eventImage"
+                app:layout_constraintTop_toBottomOf="@id/eventLocation" />
+
+            <TextView
+                android:id="@+id/eventCost"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+
+                android:fontFamily="@font/montserrat_medium"
+                android:gravity="left"
+
+                android:text="Cost"
+                android:textSize="15sp"
+                app:layout_constraintTop_toBottomOf="@id/sponceringOrganization"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/eventImage" />
 
             <TextView
                 android:id="@+id/eventDate"
                 android:layout_width="200dp"
-                android:layout_height="25dp"
-                android:layout_marginStart="5dp"
-                android:layout_marginBottom="10dp"
-                android:fontFamily="@font/montserrat_black"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/montserrat_medium"
                 android:text="Date"
                 android:textSize="15sp"
-                android:autoSizeMaxTextSize="15sp"
-                android:autoSizeMinTextSize="7sp"
-                android:autoSizeStepGranularity="2sp"
-                android:autoSizeTextType="uniform"
-                app:layout_constraintBottom_toTopOf="@+id/eventCost"
+                android:gravity="left"
+                android:layout_marginStart="5dp"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/distance"
                 app:layout_constraintStart_toEndOf="@+id/eventImage" />
 
             <TextView
                 android:id="@+id/eventTime"
                 android:layout_width="200dp"
                 android:layout_height="25dp"
-                android:fontFamily="@font/montserrat_black"
-                android:text="Time"
-                android:textSize="15sp"
-                android:gravity="left"
-                android:layout_marginStart="5dp"
-                android:layout_marginBottom="10dp"
-                app:layout_constraintBottom_toTopOf="@+id/eventDate"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/eventImage" />
-
-            <TextView
-                android:id="@+id/eventCost"
-                android:layout_width="200dp"
-                android:layout_height="25dp"
-                android:fontFamily="@font/montserrat_black"
-                android:text="Cost"
-                android:textSize="15sp"
-                android:gravity="left"
-                android:layout_marginStart="5dp"
-                android:layout_marginBottom="10dp"
-                app:layout_constraintBottom_toTopOf="@+id/sponceringOrganization"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/eventImage" />
-
-            <TextView
-                android:id="@+id/sponceringOrganization"
-                android:layout_width="200dp"
-                android:layout_height="25dp"
                 android:layout_marginStart="5dp"
                 android:layout_marginBottom="15dp"
-                android:fontFamily="@font/montserrat_black"
+                android:fontFamily="@font/montserrat_medium"
                 android:gravity="left"
-                android:text="Sponsoring Organization"
+                android:text="Time"
                 android:textSize="15sp"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/eventImage" />
+                app:layout_constraintStart_toEndOf="@+id/eventImage"
+                app:layout_constraintTop_toBottomOf="@id/eventDate"
+                app:layout_constraintBottom_toBottomOf="parent"/>
 
-            <TextView
-                android:id="@+id/distance"
-                android:layout_width="104dp"
-                android:layout_height="21dp"
-                android:layout_marginStart="35dp"
-                android:layout_marginTop="193dp"
-                android:layout_marginEnd="272dp"
-                android:layout_marginBottom="16dp"
-                android:fontFamily="@font/montserrat_black"
-                android:gravity="left"
-                android:text="distance"
-                android:textSize="15sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="@+id/eventImage"
-                app:layout_constraintTop_toTopOf="@+id/eventImage"
-                app:layout_constraintVertical_bias="1.0" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
