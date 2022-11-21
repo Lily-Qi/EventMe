@@ -198,8 +198,7 @@ public class MapsFragment extends Fragment {
                 String address1="3551 Trousdale Pkwy, Los Angeles, CA 90089";
    //             if(permission) {
                     //LatLng latLng1 = getLocationFromAddress(getContext(), address1, false, null);
-                    //LatLng latLng1 =new LatLng(34.0200135, -118.2898305);
-                    //mMap.addMarker(new MarkerOptions().position(latLng1).title("Your position"));
+
 //                    CameraUpdate cu = CameraUpdateFactory.newLatLngZoom(latLng1, 15);
 //                    mMap.moveCamera(cu);
 //                    mMap.setMyLocationEnabled(true);
@@ -219,7 +218,10 @@ public class MapsFragment extends Fragment {
                                             //LatLng temploc = getLocationFromAddress(getContext(), event.getLocation(),true, event);
                                             LatLng temploc = new LatLng(event.getLatitude(), event.getLongitude());
                                             Marker marker = mMap.addMarker(new MarkerOptions().position(temploc));
+
+                                            marker.setTitle(event.getEventTitle());
                                             markermap.put(marker.getId(), event.getId());
+
                                         }
                                         //results.sort("price");
                                     }
