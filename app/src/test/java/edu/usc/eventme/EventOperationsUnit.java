@@ -9,7 +9,7 @@ import static org.junit.Assert.*;
  *
  * @see <a href="http://d.android.com/tools/testing">Testing documentation</a>
  */
-public class andyUnit {
+public class EventOperationsUnit {
     @Test
     public void test_findDistance() {
         Event testEvent = new Event("1", "title", "category", "2022-12-27", "2022-12-20", "18:00", "17:00",
@@ -52,7 +52,7 @@ public class andyUnit {
     }
 
     @Test
-    public void test_removeEvent(){
+    public void test_removeOneEvent(){
         EventList alist= new EventList();
         Event e1 = new Event("1", "e", "category", "2022-12-27", "2022-12-20", "18:00", "17:00",
                 2, "description", "cost", true, "sponsor", "url", "loc",1,1);
@@ -67,8 +67,29 @@ public class andyUnit {
         assertEquals("Eventlist has three events after adding three events", 3, alist.getEventList().size());
         assertEquals("Second event in the list is e2 before removing", "e2", alist.getEventList().get(1).getEventTitle());
         alist.removeEvent(e2);
+        assertEquals("Eventlist has two events after adding three events", 2, alist.getEventList().size());
         assertEquals("Second event in the list is e3 after removing e2", "e3", alist.getEventList().get(1).getEventTitle());
 
+    }
+
+    @Test
+    public void test_removeAllEvent(){
+        EventList alist= new EventList();
+        Event e1 = new Event("1", "e", "category", "2022-12-27", "2022-12-20", "18:00", "17:00",
+                2, "description", "cost", true, "sponsor", "url", "loc",1,1);
+        Event e2 = new Event("2", "e2", "category2", "2022-12-27", "2022-12-20", "18:00", "17:00",
+                2, "description2", "cost2", true, "sponsor2", "url2", "loc2",1,1);
+        Event e3 = new Event("3", "e3", "category", "2022-12-27", "2022-12-20", "18:00", "17:00",
+                2, "description", "cost", true, "sponsor", "url", "loc",1,1);
+        assertEquals("Eventlist is empty before adding the event", 0, alist.getEventList().size());
+        alist.addEvent(e1);
+        alist.addEvent(e2);
+        alist.addEvent(e3);
+        assertEquals("Eventlist has three events after adding three events", 3, alist.getEventList().size());
+        alist.removeEvent(e1);
+        alist.removeEvent(e2);
+        alist.removeEvent(e3);
+        assertEquals("Eventlist is empty after removing three events", 0, alist.getEventList().size());
     }
 
 
