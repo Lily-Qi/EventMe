@@ -34,7 +34,7 @@ import java.lang.Thread;
 import java.io.*;
 @RunWith(AndroidJUnit4.class)
 @LargeTest
-public class MapFragmetnAndroidTestEspresso {
+public class MapFragmentAndroidTestEspresso {
     public static final String STRING_TO_BE_TYPED_100 = "100";
     public static final String STRING_TO_BE_DISPLAYED_10 = "10";
 
@@ -99,6 +99,7 @@ public class MapFragmetnAndroidTestEspresso {
     @Test
     public void Test_Show_Bottomsheet() throws UiObjectNotFoundException, InterruptedException {
         onView(withId(R.id.bottom_sheet)).check(matches(isDisplayed()));
+        onView(withId(R.id.recyclerView)).check(new RecyclerViewItemCountAssertion(19));
         Thread.sleep(2000);
     }
 }

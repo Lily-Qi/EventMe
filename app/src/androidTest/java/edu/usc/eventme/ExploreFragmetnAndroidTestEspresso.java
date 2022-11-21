@@ -54,7 +54,7 @@ public class ExploreFragmetnAndroidTestEspresso {
     }
 
     @Test
-    public void Test_ArtCategory() throws UiObjectNotFoundException, InterruptedException {
+    public void Test_FoodCategory() throws UiObjectNotFoundException, InterruptedException {
         onView(withId(R.id.image_food)).perform(click());
         Thread.sleep(2000);
         onView(ViewMatchers.withId(R.id.recyclerView))
@@ -63,19 +63,57 @@ public class ExploreFragmetnAndroidTestEspresso {
                         ViewMatchers.hasDescendant(withText("Food truck for snack"))
                 ));
         onView(withText("Food truck for snack")).check(matches(isDisplayed()));
-        onView(withText("Chloë Bass: Wayfinding")).check(doesNotExist());
-        //onView(withText("Food truck for snack")).perform(click());
+        onView(withId(R.id.recyclerView)).check(new RecyclerViewItemCountAssertion(5));
     }
 
     @Test
-    public void Test_SearchbyKey() throws UiObjectNotFoundException, InterruptedException {
+    public void Test_ArtCategory() throws UiObjectNotFoundException, InterruptedException {
+        onView(withId(R.id.image_art)).perform(click());
+        Thread.sleep(2000);
+        onView(ViewMatchers.withId(R.id.recyclerView))
+                // scrollTo will fail the test if no item matches.
+                .perform(RecyclerViewActions.scrollTo(
+                        ViewMatchers.hasDescendant(withText("Chloë Bass: Wayfinding"))
+                ));
+        onView(withText("Chloë Bass: Wayfinding")).check(matches(isDisplayed()));
+        onView(withId(R.id.recyclerView)).check(new RecyclerViewItemCountAssertion(5));
+    }
+
+    @Test
+    public void Test_MusicCategory() throws UiObjectNotFoundException, InterruptedException {
+        onView(withId(R.id.image_music)).perform(click());
+        Thread.sleep(2000);
+        onView(ViewMatchers.withId(R.id.recyclerView))
+                // scrollTo will fail the test if no item matches.
+                .perform(RecyclerViewActions.scrollTo(
+                        ViewMatchers.hasDescendant(withText("Famous DJ coming to LA"))
+                ));
+        onView(withText("Famous DJ coming to LA")).check(matches(isDisplayed()));
+        onView(withId(R.id.recyclerView)).check(new RecyclerViewItemCountAssertion(5));
+    }
+
+    @Test
+    public void Test_OutdoorCategory() throws UiObjectNotFoundException, InterruptedException {
+        onView(withId(R.id.image_outdoor)).perform(click());
+        Thread.sleep(2000);
+        onView(ViewMatchers.withId(R.id.recyclerView))
+                // scrollTo will fail the test if no item matches.
+                .perform(RecyclerViewActions.scrollTo(
+                        ViewMatchers.hasDescendant(withText("Join Surfing Team"))
+                ));
+        onView(withText("Join Surfing Team")).check(matches(isDisplayed()));
+        onView(withId(R.id.recyclerView)).check(new RecyclerViewItemCountAssertion(5));
+    }
+
+    @Test
+    public void Test_SearchbyTitle() throws UiObjectNotFoundException, InterruptedException {
         onView(withId(R.id.searchView)).perform(click());
+        Thread.sleep(2000);
         onView(withId(R.id.searchView)).perform(typeText("Food truck for snack"),pressKey(
                 KeyEvent.KEYCODE_ENTER));
         Thread.sleep(2000);
 
         onView(withText("Food truck for snack")).check(matches(isDisplayed()));
-        onView(withText("Chloë Bass: Wayfinding")).check(doesNotExist());
-        //onView(withText("Food truck for snack")).perform(click());
+        onView(withId(R.id.recyclerView)).check(new RecyclerViewItemCountAssertion(1));
     }
 }
