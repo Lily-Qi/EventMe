@@ -6,7 +6,8 @@
     android:layout_height="match_parent"
     android:background="#ECECEC"
     android:fitsSystemWindows="true"
-    tools:context=".UserEventList">
+    tools:context=".UserEventList"
+    android:id="@+id/userEventList">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"

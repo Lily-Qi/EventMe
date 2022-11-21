@@ -192,12 +192,12 @@ public class BottomsheetFragment extends BottomSheetDialogFragment {
         //bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
     }
 
-    private void hideAppBar(View view) {
-        ViewGroup.LayoutParams params = view.getLayoutParams();
-        params.height = 0;
-        view.setLayoutParams(params);
-
-    }
+//    private void hideAppBar(View view) {
+//        ViewGroup.LayoutParams params = view.getLayoutParams();
+//        params.height = 0;
+//        view.setLayoutParams(params);
+//
+//    }
 
     private void showView(View view, int size) {
         ViewGroup.LayoutParams params = view.getLayoutParams();
@@ -222,17 +222,17 @@ public class BottomsheetFragment extends BottomSheetDialogFragment {
 //    }
 
 
-    private int getActionBarSize() {
-        final TypedArray array = getContext().getTheme().obtainStyledAttributes(new int[]{android.R.attr.actionBarSize});
-        int size = (int) array.getDimension(0, 0);
-        return size;
-    }
-    public void gotodetail(View view){
-        TextView tv = (TextView) view;
-        System.out.println("click!!!!!!!!!!");
-        Intent intent = new Intent(view.getContext(), Details.class);
-        //intent.putExtra("Events",result);
-        //intent.putExtra("position",getAdapterPosition());
-        view.getContext().startActivity(intent);
-    }
+//    private int getActionBarSize() {
+//        final TypedArray array = getContext().getTheme().obtainStyledAttributes(new int[]{android.R.attr.actionBarSize});
+//        int size = (int) array.getDimension(0, 0);
+//        return size;
+//    }
+//    public void gotodetail(View view){
+//        TextView tv = (TextView) view;
+//        System.out.println("click!!!!!!!!!!");
+//        Intent intent = new Intent(view.getContext(), Details.class);
+//        //intent.putExtra("Events",result);
+//        //intent.putExtra("position",getAdapterPosition());
+//        view.getContext().startActivity(intent);
+//    }
 }

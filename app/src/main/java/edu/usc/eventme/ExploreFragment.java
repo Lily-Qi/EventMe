@@ -274,7 +274,7 @@ public class ExploreFragment extends Fragment {
                         for(Event e:results.getEventList()){
                             String startD=e.getStartDate();
                             String endD=e.getEndDate();
-                            if(query.compareTo(endD)<=0||startD.compareTo(query2)<=0){
+                            if(query.compareTo(endD)<=0 && startD.compareTo(query2)<=0){
                                 searchRe.addEvent(e);
                             }
                         }

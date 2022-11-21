@@ -46,7 +46,6 @@ public class User {
         return userEventList;
     }
 
-    //TODO check conflict time
     public boolean checkConflict(Event event) {
         ArrayList<Event> currList = userEventList.getEventList();
 
@@ -70,8 +69,9 @@ public class User {
                 tempEndDate = currEvent.getEndDate();
                 if (startDate.compareTo(tempEndDate) <= 0) {
                     if (endDate.compareTo(tempStartDate) >= 0) {
-                        tempStartTime = event.getStartTime();
-                        tempEndTime = event.getEndTime();
+                        //fix bug, change event to current event
+                        tempStartTime = currEvent.getStartTime();
+                        tempEndTime = currEvent.getEndTime();
                         if (startTime.compareTo(tempEndTime) <= 0 && endTime.compareTo(tempStartTime) >= 0) {
                             return true;
                         }
@@ -95,11 +95,19 @@ public class User {
     }
 
     public boolean registerEvent(Event event) {
+        String tempID = event.getId();
+        if (eventExist(tempID)) {
+            return false;
+        }
         userEventList.addEvent(event);
         return true;
     }
 
     public boolean removeEvent(Event event) {
+        String tempID = event.getId();
+        if (!eventExist(tempID)) {
+            return false;
+        }
         userEventList.removeEvent(event);
         return true;
     }
