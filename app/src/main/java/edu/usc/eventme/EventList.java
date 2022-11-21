@@ -22,9 +22,7 @@ public class EventList implements Serializable {
     public ArrayList<Event> getEventList() {
         return eventList;
     }
-    public void formList(String sort, String key){
 
-    }
     public void sort(String sort){
         switch (sort) {
             case "cost":
@@ -47,9 +45,6 @@ public class EventList implements Serializable {
         Collections.sort(eventList, new sortByDistance());
     }
 
-    public void sortbydis(){
-        Collections.sort(eventList, new sortByDistance());
-    }
 
     public double getCurrentlat() {
         return currentlat;
@@ -144,6 +139,7 @@ public class EventList implements Serializable {
             }
         }
     }
+
 
 
 }
