@@ -75,7 +75,8 @@ public class ExploreFragmetnAndroidTestEspresso {
         Thread.sleep(2000);
 
         onView(withText("Food truck for snack")).check(matches(isDisplayed()));
-        onView(withText("Chloë Bass: Wayfinding")).check(doesNotExist());
+        onView(withId(R.id.recyclerView)).check(new RecyclerViewItemCountAssertion(1));
+        //onView(withText("Chloë Bass: Wayfinding")).check(doesNotExist());
         //onView(withText("Food truck for snack")).perform(click());
     }
 }
