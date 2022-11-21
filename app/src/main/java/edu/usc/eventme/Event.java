@@ -65,6 +65,25 @@ public class Event implements Serializable {
         this.longitude = longitude;
     }
 
+    public Event(String id,String eventTitle, String category, String endDate, String startDate, String endTime, String startTime, int numUser, String description, String cost, Boolean parking, String sponsoringOrganization, String photoURL, String location, double latitude, double longitude) {
+        this.id = id;
+        this.eventTitle = eventTitle;
+        this.category = category;
+        this.endDate = endDate;
+        this.startDate = startDate;
+        this.endTime = endTime;
+        this.startTime = startTime;
+        this.numUser = numUser;
+        this.description = description;
+        this.cost = cost;
+        this.parking = parking;
+        this.sponsoringOrganization = sponsoringOrganization;
+        this.photoURL = photoURL;
+        this.location = location;
+        this.latitude = latitude;
+        this.longitude = longitude;
+    }
+
     public String getId() {
         return id;
     }
