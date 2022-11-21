@@ -99,6 +99,7 @@ public class MapFragmetnAndroidTestEspresso {
     @Test
     public void Test_Show_Bottomsheet() throws UiObjectNotFoundException, InterruptedException {
         onView(withId(R.id.bottom_sheet)).check(matches(isDisplayed()));
+        onView(withId(R.id.recyclerView)).check(new RecyclerViewItemCountAssertion(19));
         Thread.sleep(2000);
     }
 }
