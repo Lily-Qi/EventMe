@@ -236,6 +236,7 @@ public class ExploreFragmetnAndroidTestEspresso {
 
     @Test
     public void Test_SortByAlpha() throws UiObjectNotFoundException, InterruptedException {
+        Thread.sleep(3000);
         onView(withId(R.id.image_food)).perform(click());
         Thread.sleep(1000);
         onView(withId(R.id.recyclerView)).check(new RecyclerViewItemCountAssertion(5));
