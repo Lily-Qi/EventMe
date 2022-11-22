@@ -167,7 +167,7 @@ public class ExploreFragment extends Fragment {
                     if(check<0)
                         searchByDate(startDate, endDate);
                     else
-                        showMessage("The start date should be earlier than the end date"+startDate+" "+endDate+" "+check);
+                        showMessage("The start date should be earlier than the end date");
                 }
                 else{
                     showMessage("Please enter correct date format!");
