@@ -107,7 +107,7 @@ public class BottomsheetFragment extends BottomSheetDialogFragment {
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(toMain);
+                bottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
             }
         });
 
@@ -144,7 +144,7 @@ public class BottomsheetFragment extends BottomSheetDialogFragment {
             @Override
             public void onStateChanged(@NonNull View view, int i) {
                 if (BottomSheetBehavior.STATE_EXPANDED == i) {
-                    showView(ry, (int)((Resources.getSystem().getDisplayMetrics().heightPixels)/2.7* myAdaptor.getItemCount()));
+                    showView(ry, (int)((Resources.getSystem().getDisplayMetrics().heightPixels)/2.5* myAdaptor.getItemCount()));
                     //addEventlsit();
                     //hideAppBar(bi.profileLayout);
 

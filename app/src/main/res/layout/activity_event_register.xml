@@ -96,6 +96,19 @@
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <TextView
+                        android:id="@+id/rating"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="20dp"
+                        android:fontFamily="@font/montserrat"
+                        android:text="@string/star"
+                        android:textColor="@color/orange_theme"
+                        android:textSize="20sp"
+                        app:layout_constraintBottom_toTopOf="@id/numRegistered"
+                        app:layout_constraintTop_toBottomOf="@+id/time"
+                        app:layout_constraintStart_toStartOf="parent" />
+
+                    <TextView
                         android:id="@+id/numRegistered"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -108,7 +121,7 @@
                         android:textSize="15sp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toEndOf="@+id/imageView3"
-                        app:layout_constraintTop_toBottomOf="@+id/time" />
+                        app:layout_constraintTop_toBottomOf="@+id/rating" />
 
                     <TextView
                         android:id="@+id/costNType"
@@ -165,7 +178,7 @@
                         android:layout_marginStart="20dp"
                         android:layout_marginTop="7dp"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/time"
+                        app:layout_constraintTop_toBottomOf="@+id/rating"
                         app:srcCompat="@drawable/ic_circle_check_solid"
                         app:tint="@color/yellow_theme" />
 

@@ -90,7 +90,7 @@
                             android:maxLines="2"
                             android:text="Location"
                             android:textSize="15sp"
-                            app:layout_constraintTop_toBottomOf="@id/currenteventCost"
+                            app:layout_constraintTop_toBottomOf="@id/currentevnetRating"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toEndOf="@+id/currenteventImage" />
 
@@ -106,6 +106,20 @@
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintTop_toBottomOf="@id/currentdistance"
                             app:layout_constraintStart_toEndOf="@+id/currenteventImage" />
+
+                        <TextView
+                            android:id="@+id/currentevnetRating"
+                            android:layout_width="200dp"
+                            android:layout_height="22dp"
+                            android:layout_marginStart="5dp"
+                            android:fontFamily="@font/montserrat"
+                            android:gravity="left"
+                            android:text="@string/star"
+                            android:textColor="@color/orange_theme"
+                            android:textSize="17sp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@+id/currenteventImage"
+                            app:layout_constraintTop_toBottomOf="@+id/currenteventCost" />
 
                         <TextView
                             android:id="@+id/currenteventTime"
