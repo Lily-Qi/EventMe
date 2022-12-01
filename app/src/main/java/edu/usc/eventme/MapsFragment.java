@@ -39,6 +39,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -139,6 +140,7 @@ public class MapsFragment extends Fragment {
     private LatLng mOrigin;
     private LatLng mDestination;
     private Polyline mPolyline;
+    private ImageView backButton;
     //TextView tvDistanceDuration;
 
     @Override
@@ -170,46 +172,46 @@ public class MapsFragment extends Fragment {
                 mMap.setMyLocationEnabled(true);
 
                 // Setting onclick event listener for the map
-                mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
-                    @Override
-                    public void onMapClick(LatLng point) {
-                        // Already two locations
-                        if(mMarkerPoints.size()>1){
-                            mMarkerPoints.clear();
-                            mMap.clear();
-                        }
-
-                        // Adding new item to the ArrayList
-                        mMarkerPoints.add(point);
-
-                        // Creating MarkerOptions
-                        MarkerOptions options = new MarkerOptions();
-
-                        // Setting the position of the marker
-                        options.position(point);
-
-                        /**
-                         * For the start location, the color of marker is GREEN and
-                         * for the end location, the color of marker is RED.
-                         */
-                        if(mMarkerPoints.size()==1){
-                            options.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
-                        }else if(mMarkerPoints.size()==2){
-                            options.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
-                        }
-
-                        // Add new marker to the Google Map Android API V2
-                        mMap.addMarker(options);
-
-                        // Checks, whether start and end locations are captured
-                        if(mMarkerPoints.size() >= 2){
-                            mOrigin = mMarkerPoints.get(0);
-                            mDestination = mMarkerPoints.get(1);
-                            drawRoute();
-                        }
-
-                    }
-                });
+//                mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+//                    @Override
+//                    public void onMapClick(LatLng point) {
+//                        // Already two locations
+//                        if(mMarkerPoints.size()>1){
+//                            mMarkerPoints.clear();
+//                            mMap.clear();
+//                        }
+//
+//                        // Adding new item to the ArrayList
+//                        mMarkerPoints.add(point);
+//
+//                        // Creating MarkerOptions
+//                        MarkerOptions options = new MarkerOptions();
+//
+//                        // Setting the position of the marker
+//                        options.position(point);
+//
+//                        /**
+//                         * For the start location, the color of marker is GREEN and
+//                         * for the end location, the color of marker is RED.
+//                         */
+//                        if(mMarkerPoints.size()==1){
+//                            options.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
+//                        }else if(mMarkerPoints.size()==2){
+//                            options.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
+//                        }
+//
+//                        // Add new marker to the Google Map Android API V2
+//                        mMap.addMarker(options);
+//
+//                        // Checks, whether start and end locations are captured
+//                        if(mMarkerPoints.size() >= 2){
+//                            mOrigin = mMarkerPoints.get(0);
+//                            mDestination = mMarkerPoints.get(1);
+//                            drawRoute();
+//                        }
+//
+//                    }
+//                });
                 boolean permission=false;
                     if (ContextCompat.checkSelfPermission(getActivity(),Manifest.permission.ACCESS_FINE_LOCATION)== PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
                         getCurrentLocation();
@@ -228,21 +230,16 @@ public class MapsFragment extends Fragment {
                                             Event event = document.toObject(Event.class);
                                             results.addEvent(event);
                                             LatLng temploc = new LatLng(event.getLatitude(), event.getLongitude());
-                                            //markerPoints.add(temploc);
+                                            mMarkerPoints.add(temploc);
                                             Marker marker = mMap.addMarker(new MarkerOptions().position(temploc));
                                             marker.setTitle(event.getEventTitle());
                                             markermap.put(marker.getId(), event.getId());
-//                                            if(markerPoints.size()==2){
-//                                                LatLng origin = markerPoints.get(0);
-//                                                LatLng dest = markerPoints.get(1);
-//
-//                                                // Getting URL to the Google Directions API
-//                                                String url = getDirectionsUrl(origin, dest);
-//
-//                                                DownloadTask downloadTask = new DownloadTask();
-//
-//                                                // Start downloading json data from Google Directions API
-//                                                downloadTask.execute(url);
+//                                            if(mMarkerPoints.size()==2){
+//                                                LatLng origin = mMarkerPoints.get(0);
+//                                                LatLng dest = mMarkerPoints.get(1);
+//                                                mOrigin = mMarkerPoints.get(0);
+//                                                mDestination = mMarkerPoints.get(1);
+//                                                drawRoute();
 //                                            }
                                             //Polyline polyline1 = googleMap.addPolyline(new PolylineOptions()
 //                                                    .clickable(true)
@@ -262,6 +259,8 @@ public class MapsFragment extends Fragment {
                 googleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
                     @Override
                     public boolean onMarkerClick(@NonNull Marker marker) {
+                        mDestination=marker.getPosition();
+                        drawRoute();
                         BottomsheetFragment bottomSheet = new BottomsheetFragment();
                         Bundle args = new Bundle();
                         args.putString("currentid", markermap.get(marker.getId()));
@@ -271,27 +270,28 @@ public class MapsFragment extends Fragment {
                         //System.out.println("Id:"+marker.getId()+", eventid:"+markermap.get(marker.getId()));
                         bottomSheet.setArguments(args);
                         bottomSheet.show(getActivity().getSupportFragmentManager(),bottomSheet.getTag());
+
                         return true;
                     }
                 });
-//                googleMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
-//                    @Override
-//                    public void onMapClick(LatLng latLng) {
-//                        // When clicked on map
-//                        // Initialize marker options
-//                        MarkerOptions markerOptions=new MarkerOptions();
-//                        // Set position of marker
-//                        markerOptions.position(latLng);
-//                        // Set title of marker
-//                        markerOptions.title(latLng.latitude+" : "+latLng.longitude);
-//                        // Remove all marker
-//                        //googleMap.clear();
-//                        // Animating to zoom the marker
-//                        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng,10));
-//                        // Add marker on map
-//                        //googleMap.addMarker(markerOptions);
-//                    }
-//                });
+                googleMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+                    @Override
+                    public void onMapClick(LatLng latLng) {
+                        // When clicked on map
+                        // Initialize marker options
+                        MarkerOptions markerOptions=new MarkerOptions();
+                        // Set position of marker
+                        markerOptions.position(latLng);
+                        // Set title of marker
+                        markerOptions.title(latLng.latitude+" : "+latLng.longitude);
+                        // Remove all marker
+                        //googleMap.clear();
+                        // Animating to zoom the marker
+                        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng,10));
+                        // Add marker on map
+                        //googleMap.addMarker(markerOptions);
+                    }
+                });
             }
 
             @SuppressLint("MissingPermission")
@@ -325,7 +325,8 @@ public class MapsFragment extends Fragment {
                                         currentlocation=location;
                                         System.out.println(currentlocation.getLatitude());
                                         LatLng currentlatlng=new LatLng(currentlocation.getLatitude(), currentlocation.getLongitude());
-                                        //markerPoints.add(currentlatlng);
+                                        mMarkerPoints.add(currentlatlng);
+                                        mOrigin =currentlatlng;
 //                                        mMap.addMarker(new MarkerOptions().position(currentlatlng).title("Your position"));
                                         CameraUpdate cu = CameraUpdateFactory.newLatLngZoom(currentlatlng, 15);;
                                         mMap.moveCamera(cu);
