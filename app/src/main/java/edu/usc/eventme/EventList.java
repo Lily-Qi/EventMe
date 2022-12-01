@@ -37,6 +37,12 @@ public class EventList implements Serializable {
             case "alphabet":
                 Collections.sort(eventList, new sortByAlpha());
                 break;
+            case "trending":
+                Collections.sort(eventList, new sortByUser());
+                break;
+            case "rating":
+                Collections.sort(eventList, new sortByRate());
+                break;
             default:
                 Collections.sort(eventList, new sortByCost());
                 break;
@@ -91,10 +97,10 @@ public class EventList implements Serializable {
 
     class sortByCost implements Comparator<Event>{
         public int compare(Event a, Event b){
-            if(a.getCost().length()>b.getCost().length()){
+            if(a.getEst_price()>b.getEst_price()){
                 return 1;
             }
-            else if(a.getCost().length()<b.getCost().length()){
+            else if(a.getEst_price()<b.getEst_price()){
                 return -1;
             }
             else{
@@ -127,7 +133,15 @@ public class EventList implements Serializable {
                 return -1;
             }
             else{
-                return 0;
+                if(a.getStartTime().compareTo(b.getStartTime())>0){
+                    return 1;
+                }
+                else if(a.getStartTime().compareTo(b.getStartTime())<0){
+                    return -1;
+                }
+                else{
+                    return 0;
+                }
             }
         }
     }
@@ -141,6 +155,32 @@ public class EventList implements Serializable {
                 return -1;
             }
             else{
+                return 0;
+            }
+        }
+    }
+
+    class sortByRate implements Comparator<Event>{
+        public int compare(Event a, Event b){
+            if(a.getRating() < b.getRating()){
+                return 1;
+            }
+            else if(a.getRating() > b.getRating()){
+                return -1;
+            }
+            else{
+                return 0;
+            }
+        }
+    }
+
+    class sortByUser implements Comparator<Event> {
+        public int compare(Event a, Event b) {
+            if (a.getNumUser() < b.getNumUser()) {
+                return 1;
+            } else if (a.getNumUser() > b.getNumUser()) {
+                return -1;
+            } else {
                 return 0;
             }
         }

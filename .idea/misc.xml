@@ -3,7 +3,6 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-
         <entry key="../EventMetest/app/src/main/res/layout/fragment_profile.xml" value="0.26481481481481484" />
         <entry key="app/src/main/res/drawable/cardview.xml" value="0.26" />
         <entry key="app/src/main/res/drawable/custom_edit_text_rounded.xml" value="0.26" />
@@ -15,14 +14,13 @@
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.3098958333333333" />
         <entry key="app/src/main/res/layout/activity_register.xml" value="0.19537037037037036" />
         <entry key="app/src/main/res/layout/activity_user_event_list.xml" value="0.3026041666666667" />
-        <entry key="app/src/main/res/layout/adapter_row.xml" value="0.3098958333333333" />
+        <entry key="app/src/main/res/layout/adapter_row.xml" value="0.22085889570552147" />
         <entry key="app/src/main/res/layout/bottom_sheet.xml" value="0.40528733995225696" />
         <entry key="app/src/main/res/layout/bottomsheet_layout.xml" value="0.29508893048321755" />
         <entry key="app/src/main/res/layout/custom_event_cell.xml" value="0.3098958333333333" />
         <entry key="app/src/main/res/layout/dropdown_item.xml" value="0.3098958333333333" />
         <entry key="app/src/main/res/layout/eventboxses_layout.xml" value="0.6199254353841146" />
         <entry key="app/src/main/res/layout/fragment_explore.xml" value="0.3758595784505208" />
-
         <entry key="app/src/main/res/layout/fragment_maps.xml" value="0.3098958333333333" />
         <entry key="app/src/main/res/layout/fragment_profile.xml" value="0.3098958333333333" />
         <entry key="app/src/main/res/layout/popupwindow.xml" value="0.3098958333333333" />

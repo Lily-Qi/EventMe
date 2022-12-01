@@ -33,7 +33,7 @@ public class EventRegisterActivity extends AppCompatActivity {
     private ImageView eventPhoto, backButton;
     private Button registerButton;
     private Toolbar toolbar;
-    private TextView eventName, numRegistered, costNType, location, date, time;
+    private TextView eventName, numRegistered, costNType, location, date, time, rate;
     private TextView eventOrganization, eventDescription, eventParking, conflictMessage;
     private ProgressBar eventProgressBar;
 
@@ -67,6 +67,7 @@ public class EventRegisterActivity extends AppCompatActivity {
         time = findViewById(R.id.time);
         eventProgressBar = findViewById(R.id.eventProgressBar);
         backButton = findViewById(R.id.backButton);
+        rate = findViewById(R.id.rating);
         conflictMessage.setVisibility(View.GONE);
 
         if (currentUser == null) {
@@ -162,12 +163,23 @@ public class EventRegisterActivity extends AppCompatActivity {
         eventProgressBar.setVisibility(View.GONE);
         eventName.setText(event.getEventTitle());
         eventOrganization.setText(event.getSponsoringOrganization());
-        costNType.setText(event.getCost()+" · " + event.getCategory());
+        costNType.setText(event.getCost()+"     $"+String.valueOf(event.getEst_price())+"/person    " + event.getCategory());
         location.setText(event.getLocation());
         date.setText(event.getStartDate()+" to "+ event.getEndDate());
         time.setText(event.getStartTime()+" to "+event.getEndTime());
         numRegistered.setText(event.getNumUser()+" People Registered");
         eventDescription.setText(event.getDescription());
+        double rating = event.getRating();
+        String stars="";
+        while(rating>1){
+            stars = stars + getString(R.string.star);
+            rating--;
+        }
+        if(rating>0)
+        {
+            stars = stars + getString(R.string.halfstar);
+        }
+        rate.setText(stars);
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

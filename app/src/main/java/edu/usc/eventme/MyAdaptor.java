@@ -46,8 +46,19 @@ public class MyAdaptor extends RecyclerView.Adapter<MyAdaptor.ViewHolder>{
         holder.eventLocation.setText(list.get(position).getLocation());
         holder.eventDate.setText(list.get(position).getStartDate()+" to "+list.get(position).getEndDate());
         holder.eventTime.setText(list.get(position).getStartTime()+" to "+list.get(position).getEndTime());
-        holder.eventCost.setText(list.get(position).getCost());
+        holder.eventCost.setText(list.get(position).getCost()+"     $"+String.valueOf(list.get(position).getEst_price())+"/person");
         holder.sponcer.setText(list.get(position).getSponsoringOrganization());
+        double rating = list.get(position).getRating();
+        String stars="";
+        while(rating>1){
+            stars = stars + context.getString(R.string.star);
+            rating--;
+        }
+        if(rating>0)
+        {
+            stars = stars + context.getString(R.string.halfstar);
+        }
+        holder.eventRate.setText(stars);
         Picasso.get().load(list.get(position).getPhotoURL()).into(holder.eventImage);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -69,7 +80,7 @@ public class MyAdaptor extends RecyclerView.Adapter<MyAdaptor.ViewHolder>{
 
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
-        TextView eventName, eventLocation, eventDate, eventTime, eventCost, sponcer, distance;
+        TextView eventName, eventLocation, eventDate, eventTime, eventCost, sponcer, distance, eventRate;
         ImageView eventImage;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -81,6 +92,7 @@ public class MyAdaptor extends RecyclerView.Adapter<MyAdaptor.ViewHolder>{
             sponcer = itemView.findViewById(R.id.sponceringOrganization);
             eventImage = itemView.findViewById(R.id.eventImage);
             distance = itemView.findViewById(R.id.distance);
+            eventRate = itemView.findViewById(R.id.eventRating);
             itemView.setOnClickListener(this);
 
         }
