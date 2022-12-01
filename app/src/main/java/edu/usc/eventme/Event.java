@@ -22,12 +22,15 @@ public class Event implements Serializable {
     private String photoURL;
     private double latitude;
     private double longitude;
+    private double est_price;
+    private double rating;
 
+    //constructor for serialization
     public Event(){
 
     }
 
-    public Event(String id,String eventTitle, String category, String endDate, String startDate, String endTime, String startTime, int numUser, String description, String cost, Boolean parking, String sponsoringOrganization, String photoURL, String location) {
+    public Event(String id,String eventTitle, String category, String endDate, String startDate, String endTime, String startTime, int numUser, String description, String cost, Boolean parking, String sponsoringOrganization, String photoURL, String location, double latitude, double longitude, double est_price, double rating) {
         this.id = id;
         this.eventTitle = eventTitle;
         this.category = category;
@@ -44,8 +47,29 @@ public class Event implements Serializable {
         this.location = location;
         this.latitude = latitude;
         this.longitude = longitude;
+        this.est_price = est_price;
+        this.rating = rating;
     }
 
+    //constructor for white box testing
+    public Event(String id,String eventTitle, String category, String endDate, String startDate, String endTime, String startTime, int numUser, String description, String cost, Boolean parking, String sponsoringOrganization, String photoURL, String location) {
+        this.id = id;
+        this.eventTitle = eventTitle;
+        this.category = category;
+        this.endDate = endDate;
+        this.startDate = startDate;
+        this.endTime = endTime;
+        this.startTime = startTime;
+        this.numUser = numUser;
+        this.description = description;
+        this.cost = cost;
+        this.parking = parking;
+        this.sponsoringOrganization = sponsoringOrganization;
+        this.photoURL = photoURL;
+        this.location = location;
+    }
+
+    //constructor for white box testing
     public Event(String id,String eventTitle, String category, String endDate, String startDate, String endTime, String startTime, int numUser, String description, String cost, Boolean parking, String sponsoringOrganization, String photoURL, String location, double latitude, double longitude) {
         this.id = id;
         this.eventTitle = eventTitle;
@@ -133,6 +157,14 @@ public class Event implements Serializable {
 
     public double getLongitude() {
         return longitude;
+    }
+
+    public double getEst_price() {
+        return est_price;
+    }
+
+    public double getRating(){
+        return rating;
     }
 
     public double findDis(double lat, double lon){
