@@ -28,3 +28,12 @@ If your emulator is not Pixel 2 with API 24, please follow the following steps. 
 When EventMe is running: 
 1. Please allow EventME to access this device's location when there is a pop-up window asks for it, in order to use all functionalities of the App. 
 2. When you want to search by keyword, please click on the magnifier icon on the textfied first in order to input text, and after inputing, please click the magnifier on the keyboard to start searching.
+
+## Improvement
+1. Added the estimated cost to all events in the form of numbers, instead of just showing the dollar signs. It could be seen in the event box and event registration page.
+2. Added the user ratings for all events in the form of stars. It could be seen in the event box and event registration page.
+3. Added the extra feature route panning. When you click on a marker on the map, it will show the bottom sheet as well as the route from your current location to the marker. You can swipe down to hide the bottom sheet to see the route.
+4. Fixed the bug for distances show in User's list 
+5. Changed the back button in bottomsheet from going to expore page to going back to the map.(you can still swipe down the bottomsheet to go back to the map as before).
+6. Fixed the sorting of the events in the same day.
+7. Added the functionality to sort eevnts by numbers of registerer users
