@@ -29,7 +29,7 @@ When EventMe is running:
 1. Please allow EventME to access this device's location when there is a pop-up window asks for it, in order to use all functionalities of the App. 
 2. When you want to search by keyword, please click on the magnifier icon on the textfied first in order to input text, and after inputing, please click the magnifier on the keyboard to start searching.
 
-## Improvement
+## Improvements
 1. Added the estimated cost to all events in the form of numbers, instead of just showing the dollar signs. It could be seen in the event box and event registration page.
 2. Added the user ratings for all events in the form of stars. It could be seen in the event box and event registration page.
 3. Added the extra feature route panning. When you click on a marker on the map, it will show the bottom sheet as well as the route from your current location to the marker. You can swipe down to hide the bottom sheet to see the route.
