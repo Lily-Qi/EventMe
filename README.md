@@ -33,7 +33,7 @@ When EventMe is running:
 1. Added the estimated cost to all events in the form of numbers, instead of just showing the dollar signs. It could be seen in the event box and event registration page.
 2. Added the user ratings for all events in the form of stars. It could be seen in the event box and event registration page.
 3. Added the extra feature route panning. When you click on a marker on the map, it will show the bottom sheet as well as the route from your current location to the marker. You can swipe down to hide the bottom sheet to see the route.
-4. Fixed the bug for distances show in User's list 
-5. Changed the back button in bottomsheet from going to expore page to going back to the map.(you can still swipe down the bottomsheet to go back to the map as before).
+4. Fixed the bug for distances showed in User's list 
+5. Changed the back button in bottomsheet from going to explore page to going back to the map.(you can still swipe down the bottomsheet to go back to the map as before).
 6. Fixed the sorting of the events in the same day.
-7. Added the functionality to sort eevnts by numbers of registerer users
+7. Added the functionality to sort evnts by numbers of registerer users
